@@ -31,3 +31,12 @@ body {
 .container {
   @apply px-[16px];
 }
+
+.primary-button {
+  @apply font-[700] tracking-[3px] px-[12px] py-[8px];
+}
+.primary-button:hover {
+  @apply bg-red-900 text-white rounded-lg transition-all duration-500;
+}
+.primary-header {
+}
