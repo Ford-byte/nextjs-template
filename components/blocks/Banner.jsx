@@ -5,13 +5,17 @@ export default function Banner(props) {
     <section className="relative min-h-[600px] flex items-center justify-center">
       <div className="absolute inset-0 -z-10">
         {props?.image ? (
-          <Image
-            src={props.image}
-            layout="fill"
-            objectFit="cover"
-            alt="Background"
-            className="object-cover"
-          />
+          <picture>
+            <source media="(max-width: 600px)" srcSet={props?.mobile_image} />
+            <source media="(max-width: 1023px)" srcSet={props?.mobile_image} />
+            <Image
+              src={props?.image}
+              fill
+              style={{ objectFit: "cover" }}
+              alt="Background"
+              className="object-cover"
+            />
+          </picture>
         ) : (
           <Image
             src="/images/not_found.png"

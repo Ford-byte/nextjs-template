@@ -7,6 +7,8 @@ import { useEffect } from "react";
 
 const About = dynamic(() => import("@/components/blocks/About"));
 const Jumpstart = dynamic(() => import("@/components/blocks/Jumpstart"));
+const Crew = dynamic(() => import("@/components/blocks/Crew"));
+
 export default function Home() {
   const { showLazy, setShowLazy } = useLocalStorage();
 
@@ -31,10 +33,12 @@ export default function Home() {
       <Banner
         header={`Where Fitness becomes your lifestyle`}
         image={`/images/bg_banner.webp`}
+        mobile_image={"/images/mbg_banner.webp"}
         buttons={{ button1: `Hire a coach`, button2: `Login` }}
       />
       <About />
       {showLazy && <Jumpstart />}
+      {showLazy && <Crew />}
     </>
   );
 }
