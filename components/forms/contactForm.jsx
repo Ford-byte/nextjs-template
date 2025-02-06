@@ -11,7 +11,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="flex flex-col gap-y-8">
+    <div className="flex flex-col gap-y-8 z-[1]">
       <div className="text-center">
         <h2 className="text-6xl font-bold tracking-wider">GET IN TOUCH</h2>
         <h3 className="text-xs text-gray-200">Contact Us</h3>
