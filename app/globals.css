@@ -17,7 +17,10 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.pointer {
+  @apply hover:cursor-pointer;
 }
 
 .center {
@@ -29,14 +32,26 @@ body {
 }
 
 .container {
-  @apply px-[16px];
+  @apply px-[16px] lg:px-0;
 }
 
-.primary-button {
+.secondary-button {
   @apply font-[700] tracking-[3px] px-[12px] py-[8px];
 }
-.primary-button:hover {
+.secondary-button:hover {
   @apply bg-red-900 text-white rounded-lg transition-all duration-500;
 }
 .primary-header {
+}
+.primary-button {
+  @apply rounded-md bg-gradient-to-r from-[#f45666] to-[#9352f4] p-2 px-[12px] shadow-md;
+}
+.primary-button:hover {
+  @apply shadow-none;
+}
+.tertiary-button {
+  @apply rounded-md bg-white p-2 shadow-md;
+}
+.tertiary-button:hover {
+  @apply shadow-none;
 }

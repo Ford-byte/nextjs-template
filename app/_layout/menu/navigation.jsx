@@ -11,16 +11,28 @@ export default function Navigation() {
       link: "/about",
     },
     {
-      title: "Contact",
-      link: "/contact",
+      title: "Training",
+      link: "/training",
+    },
+    {
+      title: "Login",
+      link: "/",
     },
   ];
+
   return (
     <div id="menu" className="relative">
-      <div className="flex gap-x-[36px]">
+      <div className="hidden lg:flex gap-x-[24px]">
         {navigators?.map((item, index) => {
           return (
-            <Link href={item?.link} key={index} className="primary-button">
+            <Link
+              href={item?.link}
+              key={index}
+              className={
+                item?.title === "Login" ? "primary-button" : "secondary-button"
+              }
+              id={item?.title}
+            >
               {item?.title}
             </Link>
           );
