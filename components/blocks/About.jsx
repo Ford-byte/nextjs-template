@@ -1,9 +1,44 @@
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import useLocalStorage from "@/components/store/localStorage";
 
 export default function About() {
+  const { setShowLazy } = useLocalStorage();
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  const sectionRef = useRef(null);
+
+  const handleScroll = () => {
+    const section = sectionRef.current;
+    const rect = section.getBoundingClientRect();
+
+    if (rect.bottom <= window.innerHeight) {
+      setIsAtBottom(true);
+    } else {
+      setIsAtBottom(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAtBottom) {
+      setShowLazy(true);
+    }
+  }, [isAtBottom, setShowLazy]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    section.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    return () => {
+      section.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <section id="about" className="relative">
+    <section id="about" ref={sectionRef} className="relative">
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative h-full min-h-[550px]">
           <div className="">

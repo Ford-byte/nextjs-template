@@ -12,6 +12,7 @@ export default function Banner(props) {
               src={props?.image}
               fill
               style={{ objectFit: "cover" }}
+              priority
               alt="Background"
               className="object-cover"
             />

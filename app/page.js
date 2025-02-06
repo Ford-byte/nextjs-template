@@ -3,18 +3,25 @@
 import Banner from "@/components/blocks/Banner";
 import useLocalStorage from "@/components/store/localStorage";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 const About = dynamic(() => import("@/components/blocks/About"));
-const Jumpstart = dynamic(() => import("@/components/blocks/Jumpstart"));
-const Crew = dynamic(() => import("@/components/blocks/Crew"));
+const Jumpstart = dynamic(() => import("@/components/blocks/Jumpstart"), {
+  loading: () => <div>Loading...</div>,
+});
+const Crew = dynamic(() => import("@/components/blocks/Crew"), {
+  loading: () => <div>Loading...</div>,
+});
+const Contact = dynamic(() => import("@/components/blocks/Contact"), {
+  loading: () => <div>Loading...</div>,
+});
 
 export default function Home() {
   const { showLazy, setShowLazy } = useLocalStorage();
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     setShowLazy(true);
-  };
+  }, [setShowLazy]);
 
   useEffect(() => {
     setShowLazy(false);
@@ -22,11 +29,13 @@ export default function Home() {
     const htmlElement = document.documentElement;
     htmlElement.addEventListener("mouseenter", handleMouseEnter);
     htmlElement.addEventListener("mousemove", handleMouseEnter);
+    htmlElement.addEventListener("click", handleMouseEnter);
 
     return () => {
       htmlElement.removeEventListener("mouseenter", handleMouseEnter);
+      htmlElement.removeEventListener("mousemove", handleMouseEnter);
     };
-  }, [setShowLazy]);
+  }, [handleMouseEnter]);
 
   return (
     <>
@@ -39,6 +48,7 @@ export default function Home() {
       <About />
       {showLazy && <Jumpstart />}
       {showLazy && <Crew />}
+      {showLazy && <Contact />}
     </>
   );
 }
