@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function AboutTwo(props) {
+export default function AboutTwo() {
   return (
     <section className="relative">
       <div className="center py-[62px] h-fit bg-gradient-to-b from-blue-500 to-black">
