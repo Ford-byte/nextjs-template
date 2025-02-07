@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function CrewTeam() {
   return (
@@ -17,13 +16,13 @@ export default function CrewTeam() {
         />
         <span className="absolute inset-0 text-white flex items-center justify-between bg-black/90 px-[16px] transition-all duration-500 opacity-0 group-hover:opacity-100 h-0 group-hover:h-[100px] transform">
           <h3 className="text-2xl uppercase">Kurt</h3>
-          <Link href={`/coach/kurt`} className="pointer">
+          <Link href={`/coach/kurt`}>
             <svg
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-8"
+              className="size-8 pointer"
             >
               <path
                 strokeLinecap="round"
@@ -44,13 +43,13 @@ export default function CrewTeam() {
         />
         <span className="absolute inset-0 text-white flex items-center justify-between bg-black/90 px-[16px] transition-all duration-500 opacity-0 group-hover:opacity-100 h-0 group-hover:h-[100px] transform">
           <h3 className="text-2xl uppercase">FRENAND</h3>
-          <Link href={`/coach/frenand`} className="pointer">
+          <Link href={`/coach/frenand`}>
             <svg
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-8"
+              className="size-8 pointer"
             >
               <path
                 strokeLinecap="round"
@@ -71,13 +70,13 @@ export default function CrewTeam() {
         />
         <span className="absolute inset-0 text-white flex items-center justify-between bg-black/90 px-[16px] transition-all duration-500 opacity-0 group-hover:opacity-100 h-0 group-hover:h-[100px] transform">
           <h3 className="text-2xl uppercase">Rex</h3>
-          <Link href={`/coach/rex`} className="pointer">
+          <Link href={`/coach/rex`}>
             <svg
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-8"
+              className="size-8 pointer"
             >
               <path
                 strokeLinecap="round"
