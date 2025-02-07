@@ -3,14 +3,14 @@ export default function About() {
   return (
     <section id="about" className="relative">
       <div className="grid grid-cols-1 lg:grid-cols-2">
-        <div className="relative h-full min-h-[550px]">
+        <div className="relative h-full lg:min-h-[550px]">
           <div className="">
             <Image
               src={`/images/bg_about.webp`}
               width={500}
               height={500}
               alt="Background"
-              className="object-cover w-full h-[550px]"
+              className="object-cover w-full h-full"
             />
           </div>
           <div className="bg-black/20 absolute inset-0 z-[0]" />
