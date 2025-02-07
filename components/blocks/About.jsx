@@ -1,44 +1,7 @@
-import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import useLocalStorage from "@/components/store/localStorage";
-
 export default function About() {
-  const { setShowLazy } = useLocalStorage();
-  const [isAtBottom, setIsAtBottom] = useState(false);
-
-  const sectionRef = useRef(null);
-
-  const handleScroll = () => {
-    const section = sectionRef.current;
-    const rect = section.getBoundingClientRect();
-
-    if (rect.bottom <= window.innerHeight) {
-      setIsAtBottom(true);
-    } else {
-      setIsAtBottom(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isAtBottom) {
-      setShowLazy(true);
-    }
-  }, [isAtBottom, setShowLazy]);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    section.addEventListener("scroll", handleScroll);
-
-    handleScroll();
-
-    return () => {
-      section.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <section id="about" ref={sectionRef} className="relative">
+    <section id="about" className="relative">
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative h-full min-h-[550px]">
           <div className="">
@@ -53,13 +16,15 @@ export default function About() {
           <div className="bg-black/20 absolute inset-0 z-[0]" />
           <div className="absolute inset-0 text-white center items-center lg:px-0 z-[1]">
             <div className="container lg:px-[52px] space-y-[24px]">
-              <h2 className="text-7xl font-[500]">
+              <h2 className="text-5xl lg:text-7xl font-[500]">
                 About Eclipse Fitness Gym.
               </h2>
               <p className="text-2xl">Get to know us</p>
               <div className="flex gap-x-[12px]">
-                <div className="primary-button pointer">Learn More</div>
-                <div className="tertiary-button text-black pointer">
+                <div className="primary-button pointer text-xs lg:text-lg">
+                  Learn More
+                </div>
+                <div className="tertiary-button text-black pointer text-xs lg:text-lg">
                   Watch Video
                 </div>
               </div>

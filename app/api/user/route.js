@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export async function GET() {
   try {
-    const query = "SELECT * FROM user WHERE flag = true";
+    const query = `SELECT u.username,u.password,ud.firstname, ud.lastname, ud.profile, ud.age, ud.gender FROM user u JOIN user_details ud ON u.id = ud.user_id WHERE u.flag = true;`;
     const [rows] = await pool.query(query);
 
     if (!rows.length) {

@@ -4,8 +4,8 @@ export default function Jumpstart() {
   return (
     <section id="jumpstart" className="relative">
       <div className="center min-h-[550px] items-center bg-[#372F2F] py-[24px]">
-        <div className="container flex flex-col items-center gap-y-[62px]">
-          <h2 className="text-5xl text-white text-center">
+        <div className="container flex flex-col items-center gap-y-[32px] lg:gap-y-[62px]">
+          <h2 className="text-3xl lg:text-5xl text-white text-center">
             DON’T KNOW HOW TO START? TRY OUT OUR TRAININGS.
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px]">
