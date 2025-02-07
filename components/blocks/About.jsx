@@ -3,8 +3,8 @@ export default function About() {
   return (
     <section id="about" className="relative">
       <div className="grid grid-cols-1 lg:grid-cols-2">
-        <div className="relative h-full lg:min-h-[550px]">
-          <div className="">
+        <div className="relative h-[550px]">
+          <div className="h-full">
             <Image
               src={`/images/bg_about.webp`}
               width={500}
@@ -31,7 +31,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div className="center items-center relative min-h-[550px]">
+        <div className="center items-center relative">
           <div className="container py-[24px] lg:px-[52px] flex flex-col gap-y-[36px]">
             <h2 className="text-center text-4xl font-[700] font-[Cairo] text-blue-600">
               Join Eclipse and Transform Your Body and Mind
