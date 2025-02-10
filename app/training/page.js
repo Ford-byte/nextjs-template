@@ -71,7 +71,7 @@ export default function Page() {
       },
       {
         button: "view exercises",
-        link: "/training/exercise/Strength",
+        link: "/training/exercise/strength",
       },
     ],
     []
@@ -105,7 +105,7 @@ export default function Page() {
       },
       {
         button: "view exercises",
-        link: "/training/exercise/Strength",
+        link: "/training/exercise/endurance",
       },
     ],
     []
