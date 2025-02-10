@@ -98,7 +98,7 @@ export default function Page() {
       },
       {
         button: "view exercises",
-        link: "/training/exercise/Strength",
+        link: "/training/exercise/strength",
       },
     ],
     []
@@ -111,7 +111,7 @@ export default function Page() {
           "Endurance training, also known as aerobic or stamina training, focuses on improving the body's ability to sustain physical activity over extended periods. It involves exercises that increase your heart rate and breathing for an extended duration, enhancing the efficiency of your cardiovascular and respiratory systems",
       },
       {
-        title: "Benefits of Strength",
+        title: "Benefits of Endurance",
         list: [
           "Strengthens the heart, improving its ability to pump blood",
           "Reduces the risk of heart diseas",
@@ -126,13 +126,13 @@ export default function Page() {
         ],
       },
       {
-        title: "Why Should Try Strength?",
+        title: "Why Should Try Endurance?",
         description:
           "Strength training is a key component of physical fitness, offering numerous benefits for both the body and mind. Whether your goal is to improve functional strength, enhance your physique, or simply stay active, strength training provides a foundation for a healthy and balanced lifestyle",
       },
       {
         button: "view exercises",
-        link: "/training/exercise/Strength",
+        link: "/training/exercise/endurance",
       },
     ],
     []
@@ -168,7 +168,7 @@ export default function Page() {
             return (
               <div
                 key={index}
-                className="border border-black center py-[24px] text-2xl font-[500] pointer"
+                className="border border-black center py-[24px] text-2xl font-[500] pointer shadow-lg"
                 onClick={() => {
                   setRoutine(item);
                 }}
