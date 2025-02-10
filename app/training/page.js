@@ -1,38 +1,11 @@
 "use client";
 
 import BannerTwo from "@/components/blocks/BannerTwo";
-import useLocalStorage from "@/components/store/localStorage";
-import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
-
-const AboutTwo = dynamic(() => import("@/components/blocks/AboutTwo"));
-const Contact = dynamic(() => import("@/components/blocks/Contact"), {
-  loading: () => <div>Loading...</div>,
-});
+import { useEffect, useMemo, useState } from "react";
 
 export default function Page() {
-  const { showLazy, setShowLazy } = useLocalStorage();
   const [routine, setRoutine] = useState("HIIT");
   const [workout, setWorkout] = useState([]);
-
-  const handleMouseEnter = useCallback(() => {
-    setShowLazy(true);
-  }, [setShowLazy]);
-
-  useEffect(() => {
-    setShowLazy(false);
-
-    const htmlElement = document.documentElement;
-    htmlElement.addEventListener("mouseenter", handleMouseEnter);
-    htmlElement.addEventListener("mousemove", handleMouseEnter);
-    htmlElement.addEventListener("click", handleMouseEnter);
-
-    return () => {
-      htmlElement.removeEventListener("mouseenter", handleMouseEnter);
-      htmlElement.removeEventListener("mousemove", handleMouseEnter);
-      htmlElement.removeEventListener("click", handleMouseEnter);
-    };
-  }, [handleMouseEnter]);
 
   const HIIT = useMemo(
     () => [
@@ -98,7 +71,7 @@ export default function Page() {
       },
       {
         button: "view exercises",
-        link: "/training/exercise/strength",
+        link: "/training/exercise/Strength",
       },
     ],
     []
@@ -111,7 +84,7 @@ export default function Page() {
           "Endurance training, also known as aerobic or stamina training, focuses on improving the body's ability to sustain physical activity over extended periods. It involves exercises that increase your heart rate and breathing for an extended duration, enhancing the efficiency of your cardiovascular and respiratory systems",
       },
       {
-        title: "Benefits of Endurance",
+        title: "Benefits of Strength",
         list: [
           "Strengthens the heart, improving its ability to pump blood",
           "Reduces the risk of heart diseas",
@@ -126,13 +99,13 @@ export default function Page() {
         ],
       },
       {
-        title: "Why Should Try Endurance?",
+        title: "Why Should Try Strength?",
         description:
           "Strength training is a key component of physical fitness, offering numerous benefits for both the body and mind. Whether your goal is to improve functional strength, enhance your physique, or simply stay active, strength training provides a foundation for a healthy and balanced lifestyle",
       },
       {
         button: "view exercises",
-        link: "/training/exercise/endurance",
+        link: "/training/exercise/Strength",
       },
     ],
     []
