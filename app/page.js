@@ -70,6 +70,9 @@ const Crew = dynamic(() => import("@/components/blocks/Crew"), {
 const Contact = dynamic(() => import("@/components/blocks/Contact"), {
   loading: () => <div>Loading...</div>,
 });
+const Login = dynamic(() => import("./_layout/menu/login"), {
+  loading: () => <div>Loading...</div>,
+});
 
 export default function Home() {
   const [showLazy, setShowLazy] = useState(false);
@@ -128,6 +131,7 @@ export default function Home() {
         {showLazy && <Jumpstart />}
         {showLazy && <Crew />}
         {showLazy && <Contact />}
+        {showLazy && <Login />}
       </div>
     </>
   );

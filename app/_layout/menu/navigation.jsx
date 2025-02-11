@@ -1,4 +1,5 @@
 "use client";
+import useLocalStorage from "@/components/store/localStorage";
 import Bars from "@/public/icons/bars";
 import Close from "@/public/icons/close";
 import Link from "next/link";
@@ -6,86 +7,62 @@ import { useState } from "react";
 
 export default function Navigation() {
   const navigators = [
-    {
-      title: "Home",
-      link: "/",
-    },
-    {
-      title: "About",
-      link: "/about",
-    },
-    {
-      title: "Training",
-      link: "/training",
-    },
-    {
-      title: "Login",
-      link: "/",
-    },
+    { title: "Home", link: "/" },
+    { title: "About", link: "/about" },
+    { title: "Training", link: "/training" },
   ];
 
+  const { showLogin, setShowLogin } = useLocalStorage();
   const [isOpen, setOpen] = useState(false);
-  const toggleSidebar = () => {
-    setOpen(!isOpen);
+  const toggleSidebar = () => setOpen(!isOpen);
+
+  const handleLoginClick = () => {
+    setShowLogin(!showLogin);
   };
+
   return (
     <div id="menu" className="relative">
       <div className="hidden lg:flex gap-x-[24px]">
-        {navigators?.map((item, index) => {
-          return (
-            <Link
-              href={item?.link}
-              key={index}
-              className={
-                item?.title === "Login" ? "primary-button" : "secondary-button"
-              }
-              id={item?.title}
-            >
-              {item?.title}
-            </Link>
-          );
-        })}
+        {navigators.map((item, index) => (
+          <Link href={item.link} key={index} className="secondary-button">
+            {item.title}
+          </Link>
+        ))}
+        <button className="primary-button" onClick={handleLoginClick}>
+          {/* {showLogin ? "Logout" : "Login"} */}
+          Login
+        </button>
       </div>
+
       <div className="flex lg:hidden">
-        <Bars className={`size-6`} onClick={toggleSidebar} />
+        <Bars className="size-6" onClick={toggleSidebar} />
       </div>
-      <div
-        className={`fixed ${
-          isOpen ? "flex" : "hidden"
-        } lg:hidden top-0 left-0 w-[75%] bg-white h-full z-[1]`}
-      >
-        <div className="center py-[24px]">
-          <div className="container text-black">
+
+      {isOpen && (
+        <>
+          <div className="fixed top-0 left-0 w-[75%] bg-white h-full z-[1] flex flex-col py-[24px]">
             <span className="absolute top-4 right-4">
-              <Close className={`size-6`} onClick={toggleSidebar} />
+              <Close className="size-6" onClick={toggleSidebar} />
             </span>
-            <div className="flex flex-col py-[24px]">
-              {navigators?.map((item, index) => {
-                return (
-                  <Link
-                    href={item?.link}
-                    key={index}
-                    className={`text-center ${
-                      item?.title === "Login"
-                        ? "primary-button"
-                        : "secondary-button"
-                    }`}
-                    id={item?.title}
-                  >
-                    {item?.title}
-                  </Link>
-                );
-              })}
+            <div className="container text-black flex flex-col gap-4 items-center">
+              {navigators.map((item, index) => (
+                <Link href={item.link} key={index} className="secondary-button">
+                  {item.title}
+                </Link>
+              ))}
+              <button className="primary-button" onClick={handleLoginClick}>
+                {/* {showLogin ? "Logout" : "Login"} */}
+                Login
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-      <div
-        className={`w-full h-full bg-black/50 fixed inset-0 z-[0] lg:hidden ${
-          isOpen ? "flex" : "hidden"
-        }`}
-        onClick={toggleSidebar}
-      />
+
+          <div
+            className="w-full h-full bg-black/50 fixed inset-0 z-[0]"
+            onClick={toggleSidebar}
+          />
+        </>
+      )}
     </div>
   );
 }
