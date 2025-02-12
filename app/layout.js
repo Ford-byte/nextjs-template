@@ -1,6 +1,8 @@
 import "./globals.css";
 import Footer from "./_layout/footer";
 import Header from "./_layout/header";
+import Document from "./_layout/document";
+import Head from "next/head";
 
 export const metadata = {
   title: process.env.APP_NAME || "My App",
@@ -10,9 +12,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <link
+          rel="preload"
+          href="/globals.css"
+          as="style"
+          onLoad="this.onload=null;this.rel='stylesheet';"
+        />
+        <noscript>
+          <link rel="stylesheet" href="/globals.css" />
+        </noscript>
+      </Head>
       <body>
         <Header />
-        <main className="">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>
