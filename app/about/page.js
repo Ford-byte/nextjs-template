@@ -7,7 +7,7 @@ import { useCallback, useEffect } from "react";
 
 const AboutTwo = dynamic(() => import("@/components/blocks/AboutTwo"));
 const Contact = dynamic(() => import("@/components/blocks/Contact"), {
-  loading: () => <div>Loading...</div>,
+  ssr: false,
 });
 
 export default function Page() {

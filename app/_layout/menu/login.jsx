@@ -6,31 +6,20 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 
 const LoginForm = dynamic(() => import("@/components/forms/loginForm"), {
-  loading: () => <div>Loading...</div>,
+  ssr: false,
 });
 const RegistrationForm = dynamic(
   () => import("@/components/forms/registrationForm"),
-  {
-    loading: () => <div>Loading...</div>,
-  }
+  { ssr: false }
 );
 
 export default function Login() {
   const { showLogin, setShowLogin, isLogged } = useLocalStorage();
   const [isOpen, setOpen] = useState(true);
 
-  const changeForm = () => {
-    setOpen((prev) => !prev);
-  };
+  if (isLogged) return null;
 
-  const closeForm = () => {
-    setShowLogin(false);
-    setTimeout(() => {
-      setOpen(true);
-    }, 1000);
-  };
-
-  return !isLogged ? (
+  return (
     <div
       className={`z-[1001] fixed right-0 top-0 w-[500px] hidden lg:flex flex-col h-full bg-white ${
         showLogin ? "slide-in-right" : "slide-out-right"
@@ -39,14 +28,14 @@ export default function Login() {
       <div className="relative w-full flex justify-end p-4">
         <Close
           className="size-8 fill-black cursor-pointer"
-          onClick={closeForm}
+          onClick={() => setShowLogin(false)}
         />
       </div>
       {isOpen ? (
-        <LoginForm changeForm={changeForm} />
+        <LoginForm changeForm={() => setOpen((prev) => !prev)} />
       ) : (
-        <RegistrationForm changeForm={changeForm} />
+        <RegistrationForm changeForm={() => setOpen((prev) => !prev)} />
       )}
     </div>
-  ) : null;
+  );
 }

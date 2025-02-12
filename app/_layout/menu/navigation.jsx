@@ -8,9 +8,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
 
-const LoginForm = dynamic(() => import("./login"), {
-  loading: () => <div>Loading...</div>,
-});
+const LoginForm = dynamic(() => import("./login"), { ssr: false });
 
 export default function Navigation() {
   const navigators = [

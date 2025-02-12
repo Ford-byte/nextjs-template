@@ -6,13 +6,11 @@ import dynamic from "next/dynamic";
 import { useEffect, useCallback, useState, useRef } from "react";
 
 const Jumpstart = dynamic(() => import("@/components/blocks/Jumpstart"), {
-  loading: () => <div>Loading...</div>,
+  ssr: false,
 });
-const Crew = dynamic(() => import("@/components/blocks/Crew"), {
-  loading: () => <div>Loading...</div>,
-});
+const Crew = dynamic(() => import("@/components/blocks/Crew"), { ssr: false });
 const Contact = dynamic(() => import("@/components/blocks/Contact"), {
-  loading: () => <div>Loading...</div>,
+  ssr: false,
 });
 
 export default function Home() {
