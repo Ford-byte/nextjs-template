@@ -32,7 +32,7 @@ export default function Login() {
 
   return !isLogged ? (
     <div
-      className={`z-[1001] fixed right-0 top-0 w-[500px] flex-col h-full bg-white ${
+      className={`z-[1001] fixed right-0 top-0 w-[500px] hidden lg:flex flex-col h-full bg-white ${
         showLogin ? "slide-in-right" : "slide-out-right"
       }`}
     >
