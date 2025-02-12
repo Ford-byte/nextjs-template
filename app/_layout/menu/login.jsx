@@ -30,18 +30,6 @@ export default function Login() {
     }, 1000);
   };
 
-  // useEffect(() => {
-  //   if (!showLogin) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
-
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, [showLogin]);
-
   return !isLogged ? (
     <div
       className={`z-[1001] fixed right-0 top-0 w-[500px] flex-col h-full bg-white ${

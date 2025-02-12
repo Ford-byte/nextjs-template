@@ -84,7 +84,6 @@ export default function Navigation() {
                 </Link>
               ))}
               <button className="primary-button" onClick={handleLoginClick}>
-                {/* {showLogin ? "Logout" : "Login"} */}
                 Login
               </button>
             </div>
