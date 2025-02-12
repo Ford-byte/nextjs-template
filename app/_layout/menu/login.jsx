@@ -1,10 +1,19 @@
 "use client";
 
-import LoginForm from "@/components/forms/loginForm";
-import RegistrationForm from "@/components/forms/registrationForm";
 import useLocalStorage from "@/components/store/localStorage";
 import Close from "@/public/icons/close";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const LoginForm = dynamic(() => import("@/components/forms/loginForm"), {
+  loading: () => <div>Loading...</div>,
+});
+const RegistrationForm = dynamic(
+  () => import("@/components/forms/registrationForm"),
+  {
+    loading: () => <div>Loading...</div>,
+  }
+);
 
 export default function Login() {
   const { showLogin, setShowLogin, isLogged } = useLocalStorage();
