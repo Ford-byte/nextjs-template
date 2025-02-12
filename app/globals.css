@@ -17,6 +17,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: tommy;
 }
 
 .pointer {
@@ -57,33 +58,29 @@ body {
 }
 
 .slide-in-right {
-  -webkit-animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s
+  -webkit-animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s
     both;
-  animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+  animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
 }
 
 @-webkit-keyframes slide-in-right {
   0% {
     -webkit-transform: translateX(1000px);
     transform: translateX(1000px);
-    opacity: 0;
   }
   100% {
     -webkit-transform: translateX(0);
     transform: translateX(0);
-    opacity: 1;
   }
 }
 @keyframes slide-in-right {
   0% {
     -webkit-transform: translateX(1000px);
     transform: translateX(1000px);
-    opacity: 0;
   }
   100% {
     -webkit-transform: translateX(0);
     transform: translateX(0);
-    opacity: 1;
   }
 }
 
@@ -93,28 +90,43 @@ body {
   animation: slide-out-right 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 
-
 @-webkit-keyframes slide-out-right {
   0% {
     -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
     opacity: 1;
   }
   100% {
     -webkit-transform: translateX(1000px);
-            transform: translateX(1000px);
+    transform: translateX(1000px);
     opacity: 0;
   }
 }
 @keyframes slide-out-right {
   0% {
     -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
     opacity: 1;
   }
   100% {
     -webkit-transform: translateX(1000px);
-            transform: translateX(1000px);
+    transform: translateX(1000px);
     opacity: 0;
   }
+}
+
+@font-face {
+  font-family: "tommy";
+  src: url("../public/fonts/tommy_bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "tommy";
+  src: url("../public/fonts/tommy_regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }

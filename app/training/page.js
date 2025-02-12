@@ -177,7 +177,7 @@ export default function Page() {
               {item.button && item.link && (
                 <a
                   href={item.link}
-                  className="text-white uppercase font-[500] text-center bg-[#2E2EFF] px-[24px] py-[12px] shadow-sm center"
+                  className="text-white  font-[500] text-center bg-[#2E2EFF] px-[24px] py-[24px] shadow-sm center uppercase"
                 >
                   {item.button}
                 </a>

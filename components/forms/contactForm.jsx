@@ -44,7 +44,6 @@ export default function ContactForm() {
         setFormData({ fullname: "", email: "", contact: "", message: "" });
       }
     } catch (error) {
-      console.error("Error sending message:", error);
       toast.error("Failed to send the message. Please try again.");
     }
   };
@@ -52,7 +51,9 @@ export default function ContactForm() {
   return (
     <div className="flex flex-col gap-y-8 z-[1]">
       <div className="text-center">
-        <h2 className="text-6xl font-bold tracking-wider">GET IN TOUCH</h2>
+        <h2 className="text-6xl font-bold tracking-wider font-[Cairo] ">
+          GET IN TOUCH
+        </h2>
         <h3 className="text-xs text-gray-200">Contact Us</h3>
       </div>
       <form className="space-y-4" onSubmit={handleSubmit}>

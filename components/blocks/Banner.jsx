@@ -46,7 +46,7 @@ export default function Banner(props) {
 
       <div className="container text-[18px]">
         {props?.header && (
-          <h2 className="font-bold text-5xl lg:text-7xl max-w-[900px]">
+          <h2 className="font-[600] text-5xl lg:text-7xl max-w-[900px] font-tommy">
             {props?.header || "Header"}
           </h2>
         )}

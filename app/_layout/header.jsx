@@ -1,5 +1,6 @@
 import Logo from "./menu/logo";
 import Navigation from "./menu/navigation";
+import Login from "./menu/login";
 
 export default function Header() {
   return (
@@ -12,6 +13,7 @@ export default function Header() {
           <Navigation />
         </div>
       </div>
+      <Login />
     </header>
   );
 }

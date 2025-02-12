@@ -28,7 +28,7 @@ export default function BannerTwo(props) {
         alt="background_image"
         className="w-full h-full object-cover"
       />
-      <div className="absolute inset-0 full-center text-5xl lg:text-7xl font-[600] tracking-widest bg-black/40 text-center uppercase">
+      <div className="absolute inset-0 full-center text-5xl lg:text-7xl font-[600] tracking-widest bg-black/40 text-center uppercase font-tommy">
         {props?.header}
       </div>
     </section>

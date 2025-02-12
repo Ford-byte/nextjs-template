@@ -16,7 +16,7 @@ export default function About() {
           <div className="bg-black/20 absolute inset-0 z-[0]" />
           <div className="absolute inset-0 text-white center items-center lg:px-0 z-[1]">
             <div className="container lg:px-[52px] space-y-[24px]">
-              <h2 className="text-5xl lg:text-7xl font-[500]">
+              <h2 className="text-5xl lg:text-7xl font-[600] font-tommy">
                 About Eclipse Fitness Gym.
               </h2>
               <p className="text-2xl">Get to know us</p>

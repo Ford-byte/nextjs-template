@@ -5,9 +5,7 @@ export default function Crew() {
     <section id="crew" className="relative">
       <div className="center">
         <div className="container py-[62px] flex flex-col gap-y-[62px]">
-          <h2 className="text-center text-7xl font-[500] font-[Cairo]">
-            MEET THE TEAM
-          </h2>
+          <h2 className="text-center text-7xl font-[Cairo]">MEET THE TEAM</h2>
           <div>
             <CrewTeam />
           </div>

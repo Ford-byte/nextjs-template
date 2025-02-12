@@ -70,9 +70,7 @@ const Crew = dynamic(() => import("@/components/blocks/Crew"), {
 const Contact = dynamic(() => import("@/components/blocks/Contact"), {
   loading: () => <div>Loading...</div>,
 });
-const Login = dynamic(() => import("./_layout/menu/login"), {
-  loading: () => <div>Loading...</div>,
-});
+
 
 export default function Home() {
   const [showLazy, setShowLazy] = useState(false);
@@ -86,12 +84,12 @@ export default function Home() {
     setShowLazy(false);
 
     const htmlElement = document.documentElement;
-    htmlElement.addEventListener("mouseenter", handleMouseEnter);
+    htmlElement.addEventListener("scroll", handleMouseEnter);
     htmlElement.addEventListener("mousemove", handleMouseEnter);
-    htmlElement.addEventListener("click", handleMouseEnter);
+    htmlElement.addEventListener("touchstart", handleMouseEnter);
 
     return () => {
-      htmlElement.removeEventListener("mouseenter", handleMouseEnter);
+      htmlElement.removeEventListener("touchstart", handleMouseEnter);
       htmlElement.removeEventListener("mousemove", handleMouseEnter);
     };
   }, [handleMouseEnter]);
@@ -131,7 +129,6 @@ export default function Home() {
         {showLazy && <Jumpstart />}
         {showLazy && <Crew />}
         {showLazy && <Contact />}
-        {showLazy && <Login />}
       </div>
     </>
   );

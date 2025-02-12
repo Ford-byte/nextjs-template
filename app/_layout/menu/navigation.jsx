@@ -2,6 +2,8 @@
 import useLocalStorage from "@/components/store/localStorage";
 import Bars from "@/public/icons/bars";
 import Close from "@/public/icons/close";
+import Power from "@/public/icons/power";
+import User from "@/public/icons/user";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -12,7 +14,7 @@ export default function Navigation() {
     { title: "Training", link: "/training" },
   ];
 
-  const { showLogin, setShowLogin } = useLocalStorage();
+  const { showLogin, setShowLogin, isLogged, setLog } = useLocalStorage();
   const [isOpen, setOpen] = useState(false);
   const toggleSidebar = () => setOpen(!isOpen);
 
@@ -22,16 +24,34 @@ export default function Navigation() {
 
   return (
     <div id="menu" className="relative">
-      <div className="hidden lg:flex gap-x-[24px]">
+      <div className="hidden lg:flex gap-x-[24px] items-center">
         {navigators.map((item, index) => (
-          <Link href={item.link} key={index} className="secondary-button">
+          <Link
+            href={item.link}
+            key={index}
+            className="secondary-button font-tommy uppercase"
+          >
             {item.title}
           </Link>
         ))}
-        <button className="primary-button" onClick={handleLoginClick}>
-          {/* {showLogin ? "Logout" : "Login"} */}
-          Login
-        </button>
+        {!isLogged ? (
+          <button
+            className="primary-button font-tommy uppercase tracking-widest"
+            onClick={handleLoginClick}
+          >
+            Login
+          </button>
+        ) : (
+          <div className="relative group">
+            <User className="size-[50px] cursor-pointer" />
+            <div className="absolute hidden group-hover:block bg-white py-3 px-6 text-black rounded-md shadow-lg pointer-events-auto">
+              <div className="flex items-center gap-x-3 cursor-pointer">
+                <Power className="size-6" />
+                <span>Logout</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex lg:hidden">

@@ -22,48 +22,84 @@ export async function GET() {
 }
 
 export async function POST(req) {
-  const { username, password } = await req.json();
-
-  if (!username || !password) {
-    return NextResponse.json(
-      { message: "All fields are required" },
-      { status: 400 }
-    );
-  }
-
-  const hashPassword = await bcrypt.hash(password, 10);
-  const id = uuidv4();
-
   try {
-    const queryOne = `SELECT * from user WHERE username = ?`;
-    const [res] = await pool.query(queryOne, [username]);
+    const { username, password, fullname, email } = await req.json();
 
-    if (res.length > 0) {
+    if (!username || !password || !fullname || !email) {
       return NextResponse.json(
-        { message: "User already created." },
-        { status: 409 }
-      );
-    }
-
-    const queryTwo = `INSERT INTO user(id, username, password, flag) VALUES (?, ?, ?, ?)`;
-    const [response] = await pool.query(queryTwo, [
-      id,
-      username,
-      hashPassword,
-      true,
-    ]);
-
-    if (response.affectedRows === 0) {
-      return NextResponse.json(
-        { message: "Error Creating Account!" },
+        { message: "All fields are required" },
         { status: 400 }
       );
     }
 
-    return NextResponse.json({ message: "Account Successfully Created." });
+    const hashPassword = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
+    const detailsId = uuidv4();
+
+    const checkUsernameQuery = `SELECT id FROM user WHERE username = ?`;
+    const [existingUser] = await pool.query(checkUsernameQuery, [username]);
+
+    if (existingUser.length > 0) {
+      return NextResponse.json(
+        { message: "Username is already taken." },
+        { status: 409 }
+      );
+    }
+
+    const checkEmailQuery = `SELECT id FROM user_details WHERE email = ?`;
+    const [existingEmail] = await pool.query(checkEmailQuery, [email]);
+
+    if (existingEmail.length > 0) {
+      return NextResponse.json(
+        { message: "Email is already in use." },
+        { status: 409 }
+      );
+    }
+
+    const connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    try {
+      const userQuery = `INSERT INTO user (id, username, password, flag) VALUES (?, ?, ?, ?)`;
+      const [userResponse] = await connection.query(userQuery, [
+        userId,
+        username,
+        hashPassword,
+        true,
+      ]);
+
+      if (userResponse.affectedRows === 0) {
+        throw new Error("Failed to create user.");
+      }
+
+      const detailsQuery = `INSERT INTO user_details (id, user_id, fullname, email, flag) VALUES (?, ?, ?, ?, ?)`;
+      const [detailsResponse] = await connection.query(detailsQuery, [
+        detailsId,
+        userId,
+        fullname,
+        email,
+        true,
+      ]);
+
+      if (detailsResponse.affectedRows === 0) {
+        throw new Error("Failed to create user details.");
+      }
+
+      await connection.commit();
+      connection.release();
+
+      return NextResponse.json({ message: "Account Successfully Created." });
+    } catch (error) {
+      await connection.rollback();
+      connection.release();
+      return NextResponse.json(
+        { message: "Database transaction failed", error: error.message },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     return NextResponse.json(
-      { message: "Database query failed", error: error.message },
+      { message: "Internal Server Error", error: error.message },
       { status: 500 }
     );
   }

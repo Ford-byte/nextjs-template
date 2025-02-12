@@ -5,7 +5,7 @@ export default function Jumpstart() {
     <section id="jumpstart" className="relative">
       <div className="center min-h-[550px] items-center bg-[#372F2F] py-[24px]">
         <div className="container flex flex-col items-center gap-y-[32px] lg:gap-y-[62px]">
-          <h2 className="text-3xl lg:text-5xl text-white text-center">
+          <h2 className="text-3xl lg:text-5xl text-white text-center font-[Cairo]">
             DON’T KNOW HOW TO START? TRY OUT OUR TRAININGS.
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px]">
@@ -18,8 +18,8 @@ export default function Jumpstart() {
                 maximize efficiency by providing a highly effective workout in a
                 shorter time compared to traditional steady-state cardio.
               </p>
-              <div className="text-center tertiary-button !bg-blue-500">
-                <Link href={`/exercise/hiit`}>View Exericise</Link>
+              <div className="text-center tertiary-button !bg-blue-500 !py-[20px] uppercase font-[700] text-white shadow-lg">
+                <Link href={`/exercise/hiit`}>View Exercise</Link>
               </div>
             </div>
             <div className="space-y-[24px] bg-white p-[24px] rounded-lg">
@@ -31,8 +31,8 @@ export default function Jumpstart() {
                 own body weight, free weights (like dumbbells and kettlebells),
                 resistance bands, or machines.
               </p>
-              <div className="text-center tertiary-button !bg-blue-500">
-                <Link href={`/exercise/strength`}>View Exericise</Link>
+              <div className="text-center tertiary-button !bg-blue-500 !py-[20px] uppercase font-[700] text-white shadow-lg">
+                <Link href={`/exercise/strength`}>View Exercise</Link>
               </div>
             </div>
             <div className="space-y-[24px] bg-white p-[24px] rounded-lg">
@@ -45,8 +45,8 @@ export default function Jumpstart() {
                 enhancing the efficiency of your cardiovascular and respiratory
                 systems.
               </p>
-              <div className="text-center tertiary-button !bg-blue-500">
-                <Link href={`/exercise/endurance`}>View Exericise</Link>
+              <div className="text-center tertiary-button !bg-blue-500 !py-[20px] uppercase font-[700] text-white shadow-lg">
+                <Link href={`/exercise/endurance`}>View Exercise</Link>
               </div>
             </div>
           </div>

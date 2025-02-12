@@ -1,30 +1,63 @@
-export default function LoginForm() {
+"use client";
+import Google from "@/public/icons/google";
+import { useState } from "react";
+import apiClient from "@/app/axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useLocalStorage from "../store/localStorage";
+
+export default function LoginForm({ changeForm }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { setLog } = useLocalStorage();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await apiClient.post("/api/user/login", {
+        username,
+        password,
+      });
+
+      toast.success(response.data?.message || "Welcome!");
+      setLog(true);
+      setUsername("");
+      setPassword("");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
+    }
+  };
+
   return (
-    <div id="loginform" className="relative center px-[16px] py-[24px]">
+    <div id="loginform" className="relative center px-4 py-6 text-black">
       <div className="container">
-        <h2 className="text-5xl font-[600] text-center">WELCOME</h2>
-        <h3 className="text-center text-xs">to eclipse fitness gym</h3>
+        <h2 className="text-5xl font-semibold text-center">WELCOME</h2>
+        <h3 className="text-center text-xs">to Eclipse Fitness Gym</h3>
 
         <form
-          action="/"
-          method="post"
-          className="bg-gray-200 shadow-md my-[12px] mx-auto px-[12px] flex flex-col items-center"
+          onSubmit={handleSubmit}
+          className="bg-gray-200 shadow-md my-3 mx-auto px-3 flex flex-col items-center"
         >
-          <h2 className="italic text-3xl text-center py-[24px]">ECLIPSE</h2>
-          <div className="flex flex-col gap-y-[12px] w-full px-[32px] pb-[24px]">
+          <h2 className="italic text-3xl text-center py-6">ECLIPSE</h2>
+          <div className="flex flex-col gap-y-3 w-full px-8 pb-6">
             <input
               type="text"
-              className="py-[12px] w-full  px-[12px] font-extralight text-black focus:outline-gray-300"
+              className="py-3 w-full px-3 font-extralight text-black focus:outline-gray-300"
               placeholder="Phone number, username or email"
+              value={username}
+              required
+              onChange={(e) => setUsername(e.target.value)}
             />
             <input
-              type="text"
-              className="py-[12px] w-full  px-[12px] font-extralight text-black focus:outline-gray-300"
+              type="password"
+              className="py-3 w-full px-3 font-extralight text-black focus:outline-gray-300"
               placeholder="Password"
+              value={password}
+              required
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="submit"
-              className="w-full py-[12px] bg-blue-500 text-white font-[600] rounded-lg"
+              className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg"
             >
               Log in
             </button>
@@ -32,16 +65,29 @@ export default function LoginForm() {
 
           <div className="flex justify-center items-center relative w-full">
             <div className="border-gray-500 w-full border" />
-            <p className="px-[12px]">OR</p>
+            <p className="px-3">OR</p>
             <div className="border-gray-500 w-full border" />
           </div>
 
-          <div className="py-[24px]">
-            <span></span>
-            Login with GMAIL
+          <div className="py-6 flex gap-x-3 group cursor-pointer">
+            <span>
+              <Google className="w-6 h-6" />
+            </span>
+            <p className="group-hover:underline">Login with GMAIL</p>
           </div>
         </form>
+
+        <div className="bg-gray-200 rounded-sm px-3 py-6 flex gap-x-3 justify-center">
+          <div>Doesn't Have an Account?</div>
+          <p
+            className="text-green-500 hover:underline cursor-pointer"
+            onClick={() => changeForm?.()}
+          >
+            Create an Account
+          </p>
+        </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
