@@ -22,6 +22,9 @@ export default function Navigation() {
     setShowLogin(!showLogin);
   };
 
+  const handleLogout = () => {
+    setLog(false);
+  };
   return (
     <div id="menu" className="relative">
       <div className="hidden lg:flex gap-x-[24px] items-center">
@@ -45,7 +48,12 @@ export default function Navigation() {
           <div className="relative group">
             <User className="size-[50px] cursor-pointer" />
             <div className="absolute hidden group-hover:block bg-white py-3 px-6 text-black rounded-md shadow-lg pointer-events-auto">
-              <div className="flex items-center gap-x-3 cursor-pointer">
+              <div
+                className="flex items-center gap-x-3 cursor-pointer"
+                onClick={() => {
+                  handleLogout();
+                }}
+              >
                 <Power className="size-6" />
                 <span>Logout</span>
               </div>

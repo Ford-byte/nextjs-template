@@ -3,18 +3,18 @@ export default function About() {
   return (
     <section id="about" className="relative">
       <div className="grid grid-cols-1 lg:grid-cols-2">
-        <div className="relative h-[550px]">
+        <div className="relative min-h-[550px] max-h-[600px]">
           <div className="h-full">
             <Image
               src={`/images/bg_about.webp`}
               width={500}
               height={500}
               alt="Background"
-              className="object-cover w-full h-full"
+              className="object-cover w-full min-h-[550px]"
             />
           </div>
-          <div className="bg-black/20 absolute inset-0 z-[0]" />
-          <div className="absolute inset-0 text-white center items-center lg:px-0 z-[1]">
+          <div className="bg-black/20 absolute top-0 left-0 w-full h-full z-[0]" />
+          <div className="absolute top-0 left-0 text-white center items-center lg:px-0 z-[1] h-full">
             <div className="container lg:px-[52px] space-y-[24px]">
               <h2 className="text-5xl lg:text-7xl font-[600] font-tommy">
                 About Eclipse Fitness Gym.
