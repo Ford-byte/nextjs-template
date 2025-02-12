@@ -4,8 +4,13 @@ import Bars from "@/public/icons/bars";
 import Close from "@/public/icons/close";
 import Power from "@/public/icons/power";
 import User from "@/public/icons/user";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+
+const LoginForm = dynamic(() => import("./login"), {
+  loading: () => <div>Loading...</div>,
+});
 
 export default function Navigation() {
   const navigators = [
@@ -91,6 +96,7 @@ export default function Navigation() {
           />
         </>
       )}
+      <LoginForm />
     </div>
   );
 }

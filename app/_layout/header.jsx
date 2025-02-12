@@ -13,7 +13,6 @@ export default function Header() {
           <Navigation />
         </div>
       </div>
-      <Login />
     </header>
   );
 }
