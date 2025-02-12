@@ -3,7 +3,7 @@
 import useLocalStorage from "@/components/store/localStorage";
 import Close from "@/public/icons/close";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const LoginForm = dynamic(() => import("@/components/forms/loginForm"), {
   loading: () => <div>Loading...</div>,

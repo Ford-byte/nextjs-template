@@ -2,14 +2,15 @@
 import Google from "@/public/icons/google";
 import { useState } from "react";
 import apiClient from "@/app/axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import useLocalStorage from "../store/localStorage";
+import Toast from "../popups/toast";
 
 export default function LoginForm({ changeForm }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setLog } = useLocalStorage();
+  const [toastData, setToastData] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -18,12 +19,15 @@ export default function LoginForm({ changeForm }) {
         password,
       });
 
-      toast.success(response.data?.message || "Welcome!");
-      setLog(true);
+      setToastData({ status: response?.status, message: "Login successful!" });
+      setTimeout(() => {
+        setLog(true);
+      }, 1000);
       setUsername("");
       setPassword("");
     } catch (error) {
-      toast.error(error.response?.data?.message || "An error occurred");
+      const errorMessage = error.response?.data?.message || "An error occurred";
+      setToastData({ status: 400, message: errorMessage });
     }
   };
 
@@ -87,7 +91,10 @@ export default function LoginForm({ changeForm }) {
           </p>
         </div>
       </div>
-      <ToastContainer />
+
+      {toastData && (
+        <Toast status={toastData.status} message={toastData.message} />
+      )}
     </div>
   );
 }

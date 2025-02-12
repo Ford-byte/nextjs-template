@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 import Paperplane from "@/public/icons/paperplane";
 import apiClient from "@/app/axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from "../popups/toast";
 
 export default function ContactForm() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [toastData, setToastData] = useState(null);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -40,11 +40,20 @@ export default function ContactForm() {
 
       if (response?.status === 200) {
         setFormSubmitted(true);
-        toast.success(response?.data?.message || "Message sent successfully!");
-        setFormData({ fullname: "", email: "", contact: "", message: "" });
+        setToastData({
+          status: response?.status,
+          message: response?.data?.message || "Form submitted successfully!",
+        });
+
+        setTimeout(() => {
+          setFormData({ fullname: "", email: "", contact: "", message: "" });
+        }, 2000);
       }
     } catch (error) {
-      toast.error("Failed to send the message. Please try again.");
+      setToastData({
+        status: 500,
+        message: error.response?.data?.message || "Something went wrong!",
+      });
     }
   };
 
@@ -109,7 +118,10 @@ export default function ContactForm() {
           Send <Paperplane className="size-6 fill-white" />
         </button>
       </form>
-      <ToastContainer position="top-right" autoClose={3000} />
+
+      {toastData && (
+        <Toast status={toastData.status} message={toastData.message} />
+      )}
     </div>
   );
 }

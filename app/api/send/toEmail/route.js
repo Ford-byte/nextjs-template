@@ -44,13 +44,19 @@ export async function POST(req) {
     console.log("Email sent: " + info.response);
 
     return new Response(
-      JSON.stringify({ success: true, message: "Email sent successfully!" }),
-      { status: 200 }
+      JSON.stringify({
+        success: true,
+        message: "Email sent successfully!",
+        status: 200,
+      })
     );
   } catch (error) {
     return new Response(
-      JSON.stringify({ success: false, error: "Failed to send email" }),
-      { status: 500 }
+      JSON.stringify({
+        success: false,
+        error: "Failed to send email",
+        status: 500,
+      })
     );
   }
 }

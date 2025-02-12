@@ -2,8 +2,7 @@
 import apiClient from "@/app/axios";
 import Google from "@/public/icons/google";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from "../popups/toast";
 
 export default function RegistrationForm({ changeForm }) {
   const [formData, setFormData] = useState({
@@ -14,6 +13,7 @@ export default function RegistrationForm({ changeForm }) {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [toastData, setToastData] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,7 +46,10 @@ export default function RegistrationForm({ changeForm }) {
         return toast.error(response.data?.message || "Something went wrong");
       }
 
-      toast.success(response.data?.message || "User created successfully");
+      setToastData({
+        status: response?.status,
+        message: response?.data?.message,
+      });
 
       setFormData({
         fullname: "",
@@ -56,8 +59,10 @@ export default function RegistrationForm({ changeForm }) {
         confirmPassword: "",
       });
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "An error occurred";
-      toast.error(errorMessage);
+      setToastData({
+        status: 500,
+        message: error.response?.data?.message,
+      });
     }
   };
 
@@ -134,8 +139,6 @@ export default function RegistrationForm({ changeForm }) {
             </button>
           </div>
 
-          <ToastContainer />
-
           <div className="flex justify-center items-center relative w-full">
             <div className="border-gray-500 w-full border" />
             <p className="px-3">OR</p>
@@ -163,6 +166,10 @@ export default function RegistrationForm({ changeForm }) {
           </p>
         </div>
       </div>
+
+      {toastData && (
+        <Toast status={toastData.status} message={toastData.message} />
+      )}
     </div>
   );
 }
