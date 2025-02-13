@@ -63,7 +63,7 @@ export default function Home() {
         header="Where Fitness becomes your lifestyle"
         image="/images/bg_banner.webp"
         mobile_image="/images/mbg_banner.webp"
-        buttons={{ button1: "Hire a coach", button2: "Login" }}
+        buttons={{ button: "Hire a coach", link: "#" }}
       />
       <About />
       <div ref={observerRef}>

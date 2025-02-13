@@ -19,7 +19,7 @@ export default function Jumpstart() {
                 shorter time compared to traditional steady-state cardio.
               </p>
               <div className="text-center tertiary-button !bg-blue-500 !py-[20px] uppercase font-[700] text-white shadow-lg">
-                <Link href={`/exercise/hiit`}>View Exercise</Link>
+                <Link href={`/training/exercise/hiit`}>View Exercise</Link>
               </div>
             </div>
             <div className="space-y-[24px] bg-white p-[24px] rounded-lg">
@@ -32,7 +32,7 @@ export default function Jumpstart() {
                 resistance bands, or machines.
               </p>
               <div className="text-center tertiary-button !bg-blue-500 !py-[20px] uppercase font-[700] text-white shadow-lg">
-                <Link href={`/exercise/strength`}>View Exercise</Link>
+                <Link href={`/training/exercise/strength`}>View Exercise</Link>
               </div>
             </div>
             <div className="space-y-[24px] bg-white p-[24px] rounded-lg">
@@ -46,7 +46,7 @@ export default function Jumpstart() {
                 systems.
               </p>
               <div className="text-center tertiary-button !bg-blue-500 !py-[20px] uppercase font-[700] text-white shadow-lg">
-                <Link href={`/exercise/endurance`}>View Exercise</Link>
+                <Link href={`/training/exercise/endurance`}>View Exercise</Link>
               </div>
             </div>
           </div>

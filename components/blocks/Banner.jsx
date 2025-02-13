@@ -2,10 +2,14 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import useLocalStorage from "../store/localStorage";
+import Link from "next/link";
 
 export default function Banner(props) {
-  const { showLazy, setShowLazy } = useLocalStorage();
+  const { showLazy, setShowLazy, showLogin, setShowLogin } = useLocalStorage();
 
+  const toggleLogin = () => {
+    setShowLogin(!showLogin);
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50 && !showLazy) {
@@ -52,17 +56,21 @@ export default function Banner(props) {
         )}
 
         <div className="space-x-[12px] text-xs lg:text-lg pt-[36px]">
-          {props?.buttons?.button1 && (
-            <span className="primary-button pointer">
-              {props?.buttons?.button1}
-            </span>
+          {props?.buttons?.button && (
+            <Link
+              href={props?.buttons?.link}
+              className="primary-button pointer"
+            >
+              {props?.buttons?.button}
+            </Link>
           )}
 
-          {props?.buttons?.button2 && (
-            <span className="tertiary-button pointer text-xs lg:text-lg">
-              {props?.buttons?.button2}
-            </span>
-          )}
+          <span
+            className="tertiary-button pointer text-xs lg:text-lg"
+            onClick={toggleLogin}
+          >
+            Login
+          </span>
         </div>
       </div>
     </section>

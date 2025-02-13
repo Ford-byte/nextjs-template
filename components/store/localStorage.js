@@ -7,11 +7,11 @@ const useLocalStorage = create(
       showLazy: false,
       setShowLazy: (newState) => set({ showLazy: newState }),
 
-      isLoading: true,
+      isLoading: false,
       stopLoading: (newState) => set({ isLoading: newState }),
 
       isLogged: false,
-      setLog : (newState) => set({isLogged: newState}),
+      setLog: (newState) => set({ isLogged: newState }),
 
       showLogin: false,
       setShowLogin: (newState) => set({ showLogin: newState }),
