@@ -1,22 +1,30 @@
 import { NextResponse } from "next/server";
 import pool from "../../config/route";
 
-export async function GET(req) {
+export async function GET(req, { params }) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const { name } = params;
 
-    if (!id) {
+    if (!name) {
       return NextResponse.json(
-        { message: "Missing 'id' parameter" },
+        { message: "Missing 'name' parameter" },
         { status: 400 }
       );
     }
 
-    const query = "SELECT * FROM user WHERE id = ? AND flag = true";
-    const [rows] = await pool.query(query, [id]);
+    const query =
+      "SELECT fullname, email, profile, wallpic, role FROM user_details WHERE fullname = ? AND flag = true";
 
-    return NextResponse.json({ message: "Success", data: rows });
+    const [rows] = await pool.query(query, [name]);
+
+    if (rows.length === 0) {
+      return NextResponse.json({ message: "User not found." }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "Success", data: rows },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: "Database query failed", error: error.message },
