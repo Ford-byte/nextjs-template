@@ -1,4 +1,5 @@
 "use client";
+
 import useLocalStorage from "@/components/store/localStorage";
 import Bars from "@/public/icons/bars";
 import Close from "@/public/icons/close";
@@ -7,20 +8,27 @@ import User from "@/public/icons/user";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 const LoginForm = dynamic(() => import("./login"), { ssr: false });
 
 export default function Navigation() {
+  const { showLogin, setShowLogin, isLogged, setLog } = useLocalStorage();
+  const [isOpen, setOpen] = useState(false);
   const router = useRouter();
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    setShouldRender(true);
+  }, []);
+
+  if (!shouldRender) return null;
 
   const navigators = [
     { title: "Home", link: "/" },
     { title: "About", link: "/about" },
     { title: "Training", link: "/training" },
   ];
-
-  const { showLogin, setShowLogin, isLogged, setLog } = useLocalStorage();
-  const [isOpen, setOpen] = useState(false);
 
   const toggleSidebar = () => setOpen(!isOpen);
 
@@ -42,7 +50,7 @@ export default function Navigation() {
           <Link
             href={item.link}
             key={index}
-            className="secondary-button font-tommy uppercase"
+            className="secondary-button font-tommy uppercase tracking-in-expand"
           >
             {item.title}
           </Link>
@@ -62,9 +70,7 @@ export default function Navigation() {
             <div className="absolute hidden group-hover:block bg-white py-3 px-6 text-black rounded-md shadow-lg pointer-events-auto">
               <div
                 className="flex items-center gap-x-3 cursor-pointer"
-                onClick={() => {
-                  handleLogout();
-                }}
+                onClick={handleLogout}
               >
                 <Power className="size-6" />
                 <span>Logout</span>
@@ -86,7 +92,11 @@ export default function Navigation() {
             </span>
             <div className="container text-black flex flex-col gap-4 items-center">
               {navigators.map((item, index) => (
-                <Link href={item.link} key={index} className="secondary-button">
+                <Link
+                  href={item.link}
+                  key={index}
+                  className="secondary-button tracking-in-expand"
+                >
                   {item.title}
                 </Link>
               ))}

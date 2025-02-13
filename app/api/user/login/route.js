@@ -3,44 +3,55 @@ import bcrypt from "bcrypt";
 import pool from "../../config/route";
 
 export async function POST(req) {
-  const { username, password } = await req.json();
-
-  if (!username || !password) {
-    return NextResponse.json(
-      { message: "All fields are required!" },
-      { status: 400 }
-    );
-  }
-
   try {
-    const query = `SELECT password, flag FROM user WHERE username = ?`;
+    const { username, password } = await req.json();
+
+    if (!username || !password) {
+      return NextResponse.json(
+        { message: "All fields are required!" },
+        { status: 400 }
+      );
+    }
+
+    const query = `SELECT id, password, flag FROM user WHERE username = ?`;
     const [response] = await pool.query(query, [username]);
 
     if (response.length === 0) {
-      return NextResponse.json({ message: "User not found." }, { status: 404 });
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      return NextResponse.json(
+        { message: "Invalid credentials." },
+        { status: 400 }
+      );
     }
 
-    if (!response[0].flag) {
+    const { id, password: hashedPassword, flag } = response[0];
+
+    if (!flag) {
       return NextResponse.json(
         { message: "Your account has been deactivated by the Admin." },
-        { status: 400 }
+        { status: 403 }
       );
     }
 
-    const passwordCompare = await bcrypt.compare(
-      password,
-      response[0].password
-    );
+    const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
-    if (!passwordCompare) {
+    if (!passwordMatch) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
       return NextResponse.json(
-        { message: "Password is incorrect." },
+        { message: "Invalid credentials." },
         { status: 400 }
       );
     }
 
-    return NextResponse.json({ message: "Welcome User" }, { status: 200 });
+    const queryTwo = `SELECT fullname, email, role FROM user_details WHERE user_id = ? AND flag = true`;
+    const [responseTwo] = await pool.query(queryTwo, [id]);
+
+    return NextResponse.json(
+      { message: "Welcome User", data: responseTwo },
+      { status: 200 }
+    );
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json(
       { message: "Database query failed", error: error.message },
       { status: 500 }
