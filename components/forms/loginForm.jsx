@@ -10,9 +10,12 @@ export default function LoginForm({ changeForm }) {
   const [password, setPassword] = useState("");
   const { setLog } = useLocalStorage();
   const [toastData, setToastData] = useState(null);
+  const [process, setProcess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setProcess(true);
+
     try {
       const response = await apiClient.post("/api/user/login", {
         username,
@@ -20,14 +23,20 @@ export default function LoginForm({ changeForm }) {
       });
 
       setToastData({ status: response?.status, message: "Login successful!" });
+
       setTimeout(() => {
         setLog(true);
       }, 1000);
+
       setUsername("");
       setPassword("");
     } catch (error) {
       const errorMessage = error.response?.data?.message || "An error occurred";
       setToastData({ status: 400, message: errorMessage });
+    } finally {
+      setTimeout(() => {
+        setProcess(false);
+      }, 1000);
     }
   };
 
@@ -63,7 +72,7 @@ export default function LoginForm({ changeForm }) {
               type="submit"
               className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg"
             >
-              Log in
+              {process ? "Logging in" : "Log in"}
             </button>
           </div>
 

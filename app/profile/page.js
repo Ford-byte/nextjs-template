@@ -2,7 +2,8 @@
 
 import useLocalStorage from "@/components/store/localStorage";
 import Error from "./error";
-import LoadingAnimation from "@/components/partials/loadingAnimation";
+import ProfileBanner from "@/components/blocks/ProfileBanner";
+import UserDetails from "@/components/blocks/UserDetails";
 
 export default function Page() {
   const { isLogged, isLoading } = useLocalStorage();
@@ -19,5 +20,16 @@ export default function Page() {
     return <Loading />;
   }
 
-  return isLogged ? <div className="min-h-[700px] relative"></div> : <Error />;
+  return isLogged ? (
+    <div className="min-h-[700px] relative">
+      <ProfileBanner
+        name={`Rex`}
+        wallpic={`/images/rex.webp`}
+        profile={`/images/rex.webp`}
+      />
+      <UserDetails name={`Rex`} />
+    </div>
+  ) : (
+    <Error />
+  );
 }
