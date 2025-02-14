@@ -38,6 +38,10 @@ export default function Navigation() {
 
   const handleLogout = () => {
     setTimeout(() => {
+      ["fullname", "email", "role", "local-storage-state"].forEach((key) => {
+        localStorage.removeItem(key);
+      });
+
       router.push("/");
       setLog(false);
     }, 2000);
@@ -55,6 +59,14 @@ export default function Navigation() {
             {item.title}
           </Link>
         ))}
+        {localStorage.getItem("role") === "admin" && (
+          <Link
+            href={`/dashboard`}
+            className="secondary-button font-tommy uppercase tracking-in-expand"
+          >
+            Dashboard
+          </Link>
+        )}
         {!isLogged ? (
           <button
             className="primary-button font-tommy uppercase tracking-widest"

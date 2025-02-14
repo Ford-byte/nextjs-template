@@ -15,7 +15,6 @@ export default function Page() {
       try {
         const response = await apiClient.get(`/api/user/${id}`);
         setUserData(response?.data?.data[0]);
-        console.log(response?.data?.data[0]);
       } catch (error) {
         console.log("Error fetching user data:", error);
       }

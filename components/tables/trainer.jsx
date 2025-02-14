@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import EditPopup from "../popups/editPopup";
 import DeletePopup from "../popups/deletePopup";
 
-export default function UserTable() {
+export default function Trainer() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setUser] = useState(null);
@@ -15,7 +15,7 @@ export default function UserTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await apiClient.get("/api/user");
+        const response = await apiClient.get("/api/trainer");
         setData(response?.data?.data || []);
       } catch (error) {
         console.log("Error fetching users:", error);

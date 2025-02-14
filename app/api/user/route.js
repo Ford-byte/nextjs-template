@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export async function GET() {
   try {
-    const query = `SELECT u.username,ud.fullname,ud.email,ud.profile,ud.role FROM user u JOIN user_details ud ON u.id = ud.user_id WHERE u.flag = true;`;
+    const query = `SELECT u.id,u.username,ud.fullname,ud.email,ud.profile,ud.role FROM user u JOIN user_details ud ON u.id = ud.user_id WHERE u.flag = true;`;
     const [rows] = await pool.query(query);
 
     if (!rows.length) {
@@ -13,6 +13,37 @@ export async function GET() {
     }
 
     return NextResponse.json({ message: "Success", data: rows });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Database query failed", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "User ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const query = `UPDATE user SET flag = false WHERE id = ?`;
+    const [result] = await pool.query(query, [id]);
+
+    if (result.affectedRows === 0) {
+      return NextResponse.json(
+        { message: "User not found or already deleted" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: "User data deleted successfully." });
   } catch (error) {
     return NextResponse.json(
       { message: "Database query failed", error: error.message },
