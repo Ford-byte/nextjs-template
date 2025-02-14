@@ -52,6 +52,49 @@ export async function DELETE(req) {
   }
 }
 
+export async function PUT(req) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+  const { username, fullname, email, profile, role } = await req.json();
+
+  if (!id) {
+    return NextResponse.json({ message: "ID is required" }, { status: 400 });
+  }
+
+  try {
+    const updateUserQuery = `UPDATE user SET username = ? WHERE id = ?`;
+    const [userResponse] = await pool.query(updateUserQuery, [username, id]);
+
+    const updateDetailsQuery = `UPDATE user_details SET fullname = ?, email = ?, profile = ?, role = ? WHERE user_id = ?`;
+    const [detailsResponse] = await pool.query(updateDetailsQuery, [
+      fullname,
+      email,
+      profile,
+      role,
+      id,
+    ]);
+
+    if (userResponse.affectedRows === 0 || detailsResponse.affectedRows === 0) {
+      return NextResponse.json(
+        {
+          message: "No matching account found or account already deactivated.",
+        },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Account successfully updated." },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Database query failed", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req) {
   try {
     const { username, password, fullname, email } = await req.json();

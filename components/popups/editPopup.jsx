@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Close from "@/public/icons/close";
-
+import apiClient from "@/app/axios";
+import Toast from "./toast";
 export default function EditPopup({ data, onClick }) {
+  const [toastData, setToastData] = useState(null);
   const [formData, setFormData] = useState({
     username: data.username || "",
     fullname: data.fullname || "",
@@ -14,8 +16,39 @@ export default function EditPopup({ data, onClick }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await apiClient.put(
+        `/api/user?id=${data?.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setToastData({
+        status: response?.status,
+        message: "User updated successfully!",
+      });
+
+      setTimeout(() => {
+        onClick;
+        setToastData(null);
+      }, 2000);
+    } catch (error) {
+      console.error(
+        "Error updated user:",
+        error.response?.data || error.message
+      );
+
+      setToastData({
+        status: "error",
+        message: "Failed to update user!",
+      });
+    }
   };
 
   return (
@@ -86,6 +119,13 @@ export default function EditPopup({ data, onClick }) {
           </button>
         </form>
       </div>
+      {toastData && (
+        <Toast
+          status={toastData.status}
+          message={toastData.message}
+          position="bottom-right"
+        />
+      )}
     </div>
   );
 }

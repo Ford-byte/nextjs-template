@@ -25,7 +25,7 @@ export default function Trainer() {
     };
 
     fetchData();
-  }, []);
+  }, [data]);
 
   return (
     <div className="min-h-[700px] flex items-center justify-center  ">

@@ -15,8 +15,8 @@ const Loading = () => {
 
 export default function Page() {
   const { isLogged, isLoading } = useLocalStorage();
-
-  if (!isLoading) {
+  console.log("first", isLoading);
+  if (isLoading) {
     return <Loading />;
   }
 
