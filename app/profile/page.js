@@ -18,9 +18,10 @@ const Loading = () => {
 export default function Page() {
   const { isLogged, isLoading, stopLoading } = useLocalStorage();
   const [userData, setData] = useState(null);
-  const userId = localStorage.getItem("fullname");
 
   useEffect(() => {
+    const userId = localStorage.getItem("fullname");
+
     if (userId) {
       const fetchData = async () => {
         try {

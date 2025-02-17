@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 
 export default function UserDetails(props) {
   const [data, setData] = useState([]);
-  const id = localStorage.getItem("user_id");
 
   useEffect(() => {
+    const id = localStorage.getItem("user_id");
     const fetchData = async () => {
       try {
         if (!id && !props?.name) return;
