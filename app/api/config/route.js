@@ -1,7 +1,6 @@
 import mysql from "mysql2/promise";
 import { NextResponse } from "next/server";
 
-// Create a connection pool
 const pool = mysql.createPool({
   host: process.env.APP_DATABASE_HOST,
   user: process.env.APP_DATABASE_USERNAME,
