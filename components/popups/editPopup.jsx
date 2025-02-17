@@ -35,7 +35,7 @@ export default function EditPopup({ data, onClick }) {
       });
 
       setTimeout(() => {
-        onClick;
+        onClick();
         setToastData(null);
       }, 2000);
     } catch (error) {
@@ -120,11 +120,7 @@ export default function EditPopup({ data, onClick }) {
         </form>
       </div>
       {toastData && (
-        <Toast
-          status={toastData.status}
-          message={toastData.message}
-          position="bottom-right"
-        />
+        <Toast status={toastData.status} message={toastData.message} />
       )}
     </div>
   );

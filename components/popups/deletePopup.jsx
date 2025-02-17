@@ -36,7 +36,7 @@ export default function DeletePopup(props) {
   };
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center z-[0]">
+    <div className="full-center">
       <div
         className="fixed inset-0 w-full h-full bg-black/50"
         onClick={props?.onClick}
@@ -63,11 +63,7 @@ export default function DeletePopup(props) {
       </div>
 
       {toastData && (
-        <Toast
-          status={toastData.status}
-          message={toastData.message}
-          position="bottom-right"
-        />
+        <Toast status={toastData.status} message={toastData.message} />
       )}
     </div>
   );

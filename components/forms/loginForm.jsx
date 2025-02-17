@@ -22,6 +22,7 @@ export default function LoginForm({ changeForm }) {
         password,
       });
       setToastData({ status: response?.status, message: "Login successful!" });
+      localStorage.setItem("user_id", response?.data?.data[0].user_id);
       localStorage.setItem("fullname", response?.data?.data[0].fullname);
       localStorage.setItem("email", response?.data?.data[0].email);
       localStorage.setItem("role", response?.data?.data[0].role);

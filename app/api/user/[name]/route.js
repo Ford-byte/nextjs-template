@@ -14,9 +14,7 @@ export async function GET(req, { params }) {
 
     const query =
       "SELECT fullname, email, profile, wallpic, role FROM user_details WHERE fullname = ? AND flag = true";
-
     const [rows] = await pool.query(query, [name]);
-
     if (rows.length === 0) {
       return NextResponse.json({ message: "User not found." }, { status: 404 });
     }

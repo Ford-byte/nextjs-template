@@ -13,6 +13,7 @@
     "axios-rate-limit": "^1.4.0",
     "bcrypt": "^5.1.1",
     "cookies-next": "^5.1.0",
+    "formidable": "^3.5.2",
     "googleapis": "^144.0.0",
     "mongoose": "^8.10.0",
     "mysql2": "^3.12.0",

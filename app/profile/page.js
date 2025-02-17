@@ -4,6 +4,8 @@ import useLocalStorage from "@/components/store/localStorage";
 import Error from "./error";
 import ProfileBanner from "@/components/blocks/ProfileBanner";
 import UserDetails from "@/components/blocks/UserDetails";
+import apiClient from "../axios";
+import { useState, useEffect } from "react";
 
 const Loading = () => {
   return (
@@ -14,8 +16,29 @@ const Loading = () => {
 };
 
 export default function Page() {
-  const { isLogged, isLoading } = useLocalStorage();
-  console.log("first", isLoading);
+  const { isLogged, isLoading, stopLoading } = useLocalStorage();
+  const [userData, setData] = useState(null);
+  const userId = localStorage.getItem("fullname");
+
+  useEffect(() => {
+    if (userId) {
+      const fetchData = async () => {
+        try {
+          const response = await apiClient.get(`/api/user/${userId}`);
+          setData(response?.data?.data[0]);
+          stopLoading(false);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          stopLoading(false);
+        }
+      };
+      fetchData();
+    } else {
+      console.error("User ID is missing");
+      stopLoading(false);
+    }
+  }, [userId, stopLoading]);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -23,11 +46,11 @@ export default function Page() {
   return isLogged ? (
     <div className="min-h-[700px] relative">
       <ProfileBanner
-        name="Rex"
-        wallpic="/images/rex.webp"
-        profile="/images/rex.webp"
+        name={userData?.fullname || ""}
+        wallpic={`/uploads/${userData?.profile}` || "/images/rex.webp"}
+        profile={`/uploads/${userData?.profile}` || "/images/rex.webp"}
       />
-      <UserDetails name="Rex" />
+      <UserDetails name={userData?.fullname || ""} />
     </div>
   ) : (
     <Error />

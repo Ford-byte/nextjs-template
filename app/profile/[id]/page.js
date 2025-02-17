@@ -27,11 +27,11 @@ export default function Page() {
     <div>
       <div className="min-h-[700px] relative">
         <ProfileBanner
-          name={userData?.fullname}
-          wallpic={userData?.wallpic}
-          profile={userData?.profile}
+          name={`/uploads/${userData?.fullname}`}
+          wallpic={`/uploads/${userData?.profile}`}
+          profile={`/uploads/${userData?.profile}`}
         />
-        <UserDetails name={userData?.Fullname || id} />
+        <UserDetails name={userData?.fullname || id} />
       </div>
     </div>
   ) : (

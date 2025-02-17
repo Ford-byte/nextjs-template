@@ -38,9 +38,11 @@ export default function Navigation() {
 
   const handleLogout = () => {
     setTimeout(() => {
-      ["fullname", "email", "role", "local-storage-state"].forEach((key) => {
-        localStorage.removeItem(key);
-      });
+      ["user_id", "fullname", "email", "role", "local-storage-state"].forEach(
+        (key) => {
+          localStorage.removeItem(key);
+        }
+      );
 
       router.push("/");
       setLog(false);
@@ -65,6 +67,14 @@ export default function Navigation() {
             className="secondary-button font-tommy uppercase tracking-in-expand"
           >
             Dashboard
+          </Link>
+        )}
+        {localStorage.getItem("role") === "user" && (
+          <Link
+            href={`/session`}
+            className="secondary-button font-tommy uppercase tracking-in-expand"
+          >
+            Sessions
           </Link>
         )}
         {!isLogged ? (

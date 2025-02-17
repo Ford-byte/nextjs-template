@@ -11,9 +11,9 @@ const apiClient = rateLimit(
     },
   }),
   {
-    maxRequests: 10, // Max number of requests
-    perMilliseconds: 1000, // Time frame (1 second)
-    maxRPS: 10, // Max requests per second
+    maxRequests: 10,
+    perMilliseconds: 1000,
+    maxRPS: 10,
   }
 );
 

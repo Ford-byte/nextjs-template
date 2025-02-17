@@ -43,7 +43,7 @@ export async function POST(req) {
       );
     }
 
-    const queryTwo = `SELECT fullname, email, role FROM user_details WHERE user_id = ? AND flag = true`;
+    const queryTwo = `SELECT user_id, fullname, email, role FROM user_details WHERE user_id = ? AND flag = true`;
     const [responseTwo] = await pool.query(queryTwo, [id]);
 
     return NextResponse.json(

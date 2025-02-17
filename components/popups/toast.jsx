@@ -24,6 +24,9 @@ export default function Toast({ status, message, position }) {
       closeOnClick
       pauseOnHover
       draggable
+      pauseOnFocusLoss={false}
+      limit={3}
+      className="!z-100"
     />
   );
 }

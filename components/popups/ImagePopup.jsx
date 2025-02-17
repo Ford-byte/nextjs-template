@@ -3,7 +3,6 @@ import Image from "next/image";
 import Close from "@/public/icons/close";
 
 export default function ImagePopup({ image, onClose }) {
-  // Close on Escape Key
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") onClose();
@@ -18,7 +17,7 @@ export default function ImagePopup({ image, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-[10]"
+      className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-[10] "
       onClick={onClose}
     >
       <div className="relative p-4" onClick={(e) => e.stopPropagation()}>
@@ -35,7 +34,7 @@ export default function ImagePopup({ image, onClose }) {
           width={500}
           height={500}
           alt="Displayed image"
-          className="max-w-full max-h-[80vh] object-cover rounded-lg z-[11]"
+          className="max-w-full max-h-[80vh] object-cover rounded-lg z-[11] bg-gray-200"
         />
       </div>
     </div>

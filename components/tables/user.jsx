@@ -25,7 +25,7 @@ export default function UserTable() {
     };
 
     fetchData();
-  }, [data]);
+  }, [setData]);
 
   return (
     <div className="min-h-[700px] flex items-center justify-center  ">
