@@ -39,10 +39,7 @@ export default function EditPopup({ data, onClick }) {
         setToastData(null);
       }, 2000);
     } catch (error) {
-      console.error(
-        "Error updated user:",
-        error.response?.data || error.message
-      );
+      console.log("Error updated user:", error.response?.data || error.message);
 
       setToastData({
         status: "error",

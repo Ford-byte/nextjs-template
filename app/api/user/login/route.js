@@ -51,7 +51,6 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error:", error);
     return NextResponse.json(
       { message: "Database query failed", error: error.message },
       { status: 500 }

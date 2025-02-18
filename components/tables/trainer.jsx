@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import EditPopup from "../popups/editPopup";
 import DeletePopup from "../popups/deletePopup";
 
-export default function Trainer() {
+export default function UserTable() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setUser] = useState(null);
@@ -25,7 +25,7 @@ export default function Trainer() {
     };
 
     fetchData();
-  }, [data]);
+  }, [setData]);
 
   return (
     <div className="min-h-[700px] flex items-center justify-center  ">

@@ -1,6 +1,6 @@
 "use client";
 import Google from "@/public/icons/google";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import apiClient from "@/app/axios";
 import useLocalStorage from "../store/localStorage";
 import Toast from "../popups/toast";
@@ -12,10 +12,19 @@ export default function LoginForm({ changeForm }) {
   const [toastData, setToastData] = useState(null);
   const [process, setProcess] = useState(false);
 
+  useEffect(() => {
+    if (toastData) {
+      const timer = setTimeout(() => {
+        setToastData(null);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [toastData]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcess(true);
-
     try {
       const response = await apiClient.post("/api/user/login", {
         username,
@@ -104,7 +113,11 @@ export default function LoginForm({ changeForm }) {
       </div>
 
       {toastData && (
-        <Toast status={toastData.status} message={toastData.message} />
+        <Toast
+          key={toastData.message}
+          status={toastData.status}
+          message={toastData.message}
+        />
       )}
     </div>
   );

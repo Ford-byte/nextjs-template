@@ -23,7 +23,7 @@ export default function DeletePopup(props) {
         setToastData(null);
       }, 2000);
     } catch (error) {
-      console.error(
+      console.log(
         "Error deleting user:",
         error.response?.data || error.message
       );

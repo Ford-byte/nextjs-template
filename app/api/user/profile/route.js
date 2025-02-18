@@ -51,7 +51,6 @@ export const POST = async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Error occurred during file upload:", error);
     return NextResponse.json(
       { error: "Internal server error", details: error.message },
       { status: 500 }
@@ -100,7 +99,6 @@ export const GET = async (req) => {
       data: rows,
     });
   } catch (error) {
-    console.error("Error occurred during data fetch:", error);
     return NextResponse.json(
       { message: "Internal server error", details: error.message },
       { status: 500 }

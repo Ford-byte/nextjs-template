@@ -77,6 +77,14 @@ export default function Navigation() {
             Sessions
           </Link>
         )}
+        {localStorage.getItem("role") === "trainer" && (
+          <Link
+            href={`/trainee`}
+            className="secondary-button font-tommy uppercase tracking-in-expand"
+          >
+            Trainee
+          </Link>
+        )}
         {!isLogged ? (
           <button
             className="primary-button font-tommy uppercase tracking-widest"
