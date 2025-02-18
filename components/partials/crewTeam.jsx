@@ -16,7 +16,7 @@ export default function CrewTeam() {
         />
         <span className="absolute inset-0 text-white flex items-center justify-between bg-black/90 px-[16px] transition-all duration-500 opacity-0 group-hover:opacity-100 h-0 group-hover:h-[100px] transform">
           <h3 className="text-2xl uppercase">Kurt</h3>
-          <Link aria-label="kurt" href={`/coach/kurt`}>
+          <Link aria-label="kurt" href={`/trainer/kurt`}>
             <svg
               fill="none"
               viewBox="0 0 24 24"
@@ -43,7 +43,7 @@ export default function CrewTeam() {
         />
         <span className="absolute inset-0 text-white flex items-center justify-between bg-black/90 px-[16px] transition-all duration-500 opacity-0 group-hover:opacity-100 h-0 group-hover:h-[100px] transform">
           <h3 className="text-2xl uppercase">FRENAND</h3>
-          <Link aria-label="frenand" href={`/coach/frenand`}>
+          <Link aria-label="frenand" href={`/trainer/frenand`}>
             <svg
               fill="none"
               viewBox="0 0 24 24"
@@ -70,7 +70,7 @@ export default function CrewTeam() {
         />
         <span className="absolute inset-0 text-white flex items-center justify-between bg-black/90 px-[16px] transition-all duration-500 opacity-0 group-hover:opacity-100 h-0 group-hover:h-[100px] transform">
           <h3 className="text-2xl uppercase">Rex</h3>
-          <Link aria-label="rex" href={`/coach/rex`}>
+          <Link aria-label="rex" href={`/trainer/rex`}>
             <svg
               fill="none"
               viewBox="0 0 24 24"

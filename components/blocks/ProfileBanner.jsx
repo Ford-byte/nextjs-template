@@ -1,15 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import ImagePopup from "../popups/ImagePopup";
 import Close from "@/public/icons/close";
 import useLocalStorage from "../store/localStorage";
 import AddImagePopup from "../popups/addImagePopup";
 
-export default function ProfileBanner({ wallpic, profile }) {
+export default function ProfileBanner({ wallpic, profile, name }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [addImagePopup, setAddImagePopup] = useState(false);
   const { isLogged } = useLocalStorage();
+  const [isUser, setIsUser] = useState(false);
+
+  useEffect(() => {
+    setIsUser(localStorage.getItem("fullname") === name);
+  }, [name]);
 
   const popUptoggle = () => {
     setAddImagePopup((prev) => !prev);
@@ -24,10 +29,10 @@ export default function ProfileBanner({ wallpic, profile }) {
             width={1920}
             height={900}
             alt="Profile Banner"
-            className="w-full h-full object-cover cursor-pointer"
+            className="w-full h-full object-cover cursor-pointer border"
             onClick={() => setSelectedImage(wallpic)}
           />
-          {isLogged && (
+          {isUser && isLogged && (
             <div
               className="absolute bottom-0 right-4 lg:right-12 bg-gray-100 p-2 rounded-full cursor-pointer translate-y-1/2"
               onClick={popUptoggle}
@@ -48,10 +53,10 @@ export default function ProfileBanner({ wallpic, profile }) {
               width={300}
               height={300}
               alt="Profile Picture"
-              className="size-[200px] lg:size-[300px] rounded-full object-cover cursor-pointer"
+              className="size-[200px] lg:size-[300px] rounded-full object-cover cursor-pointer border"
               onClick={() => setSelectedImage(profile)}
             />
-            {isLogged && (
+            {isUser && isLogged && (
               <div
                 className="absolute bottom-6 lg:bottom-8 right-0 bg-gray-100 p-2 rounded-full cursor-pointer"
                 onClick={popUptoggle}
