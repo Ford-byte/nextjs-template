@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Error from "./error";
 import useLocalStorage from "@/components/store/localStorage";
 import dynamic from "next/dynamic";
+import RoleTable from "@/components/tables/role";
 
 const UserTable = dynamic(() => import("@/components/tables/user"), {
   ssr: false,
@@ -50,6 +51,8 @@ export default function Page() {
           <UserTable />
         ) : tab === "trainer" ? (
           <TrainerTable />
+        ) : tab === "role" ? (
+          <RoleTable />
         ) : (
           <Error />
         )}

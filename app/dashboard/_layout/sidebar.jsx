@@ -1,6 +1,7 @@
 "use client";
 import Barbell from "@/public/icons/barbell";
 import User from "@/public/icons/user";
+import Users from "@/public/icons/users";
 import { useEffect, useState } from "react";
 
 export default function AdminSideBar(props) {
@@ -39,6 +40,19 @@ export default function AdminSideBar(props) {
             <Barbell className={`size-5`} />
           </span>
           <button onClick={() => handleTabChange("trainer")}>Trainer</button>
+        </div>
+
+        <div
+          className={`center gap-[12px] py-[12px] w-full cursor-pointer ${
+            activeTab === "role"
+              ? "bg-black fill-white text-white font-[600]"
+              : ""
+          }`}
+        >
+          <span>
+            <Users className={`size-6`} />
+          </span>
+          <button onClick={() => handleTabChange("role")}>Roles</button>
         </div>
       </div>
     </div>
