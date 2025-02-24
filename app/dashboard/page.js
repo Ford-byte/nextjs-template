@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Error from "./error";
 import useLocalStorage from "@/components/store/localStorage";
 import dynamic from "next/dynamic";
+import RoleTable from "@/components/tables/role";
 
 const UserTable = dynamic(() => import("@/components/tables/user"), {
   ssr: false,
@@ -20,12 +21,17 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const { isLogged } = useLocalStorage();
   const [tab, setTab] = useState("user");
-
+  const [isTrue, setTrue] = useState(false);
   useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    if (storedRole) {
-      setRole(storedRole);
+    const access = localStorage.getItem("accessControl");
+
+    if (access) {
+      const parsedAccess = JSON.parse(access);
+
+      const hasDashboardAccess = parsedAccess.includes("view:dashboard");
+      setTrue(hasDashboardAccess);
     }
+
     setLoading(false);
   }, []);
 
@@ -40,7 +46,7 @@ export default function Page() {
     setTab(e);
   };
 
-  return role === "admin" ? (
+  return isTrue ? (
     <div className="flex min-h-[700px] relative">
       <div className="w-[300px] bg-gray-200 h-full absolute ">
         <AdminSideBar changeTab={changeTab} />
@@ -50,6 +56,8 @@ export default function Page() {
           <UserTable />
         ) : tab === "trainer" ? (
           <TrainerTable />
+        ) : tab === "role" ? (
+          <RoleTable />
         ) : (
           <Error />
         )}

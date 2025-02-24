@@ -1,40 +1,59 @@
 "use client";
 import Google from "@/public/icons/google";
 import { useState, useEffect } from "react";
-import apiClient from "@/app/axios";
 import useLocalStorage from "../store/localStorage";
 import Toast from "../popups/toast";
+import accessControl from "@/app/accessControl";
+import useApiStorage from "../store/api";
 
 export default function LoginForm({ changeForm }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setLog } = useLocalStorage();
-  const [toastData, setToastData] = useState(null);
   const [process, setProcess] = useState(false);
-
-  useEffect(() => {
-    if (toastData) {
-      const timer = setTimeout(() => {
-        setToastData(null);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [toastData]);
+  const { userLogin, toastData } = useApiStorage();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcess(true);
     try {
-      const response = await apiClient.post("/api/user/login", {
-        username,
-        password,
+      const response = await userLogin({
+        username: username,
+        password: password,
       });
-      setToastData({ status: response?.status, message: "Login successful!" });
-      localStorage.setItem("user_id", response?.data?.data[0].user_id);
-      localStorage.setItem("fullname", response?.data?.data[0].fullname);
-      localStorage.setItem("email", response?.data?.data[0].email);
-      localStorage.setItem("role", response?.data?.data[0].role);
+
+      const userData = response?.data?.data[0];
+
+      if (response?.success === false) {
+        return;
+      }
+
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          user_id: userData?.user_id,
+          fullname: userData?.fullname,
+          email: userData?.email,
+        })
+      );
+
+      localStorage.setItem("user_id", userData?.user_id);
+      localStorage.setItem("fullname", userData?.fullname);
+      localStorage.setItem("email", userData?.email);
+      localStorage.setItem("role", userData?.role);
+
+      accessControl(userData?.user_id).then((permissions) => {
+        if (permissions && permissions.length > 0) {
+          const permissionKeywords = permissions.map((item) => item.keyword);
+          localStorage.setItem(
+            "accessControl",
+            JSON.stringify(permissionKeywords)
+          );
+        } else {
+          console.log("No permissions found.");
+        }
+      });
+
       setTimeout(() => {
         setLog(true);
       }, 1000);
@@ -43,7 +62,6 @@ export default function LoginForm({ changeForm }) {
       setPassword("");
     } catch (error) {
       const errorMessage = error.response?.data?.message || "An error occurred";
-      setToastData({ status: 400, message: errorMessage });
     } finally {
       setTimeout(() => {
         setProcess(false);
@@ -113,11 +131,7 @@ export default function LoginForm({ changeForm }) {
       </div>
 
       {toastData && (
-        <Toast
-          key={toastData.message}
-          status={toastData.status}
-          message={toastData.message}
-        />
+        <Toast status={toastData.status} message={toastData.message} />
       )}
     </div>
   );

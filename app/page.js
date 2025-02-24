@@ -3,7 +3,7 @@
 import Banner from "@/components/blocks/Banner";
 import About from "@/components/blocks/About";
 import dynamic from "next/dynamic";
-import { useEffect, useCallback, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const Jumpstart = dynamic(() => import("@/components/blocks/Jumpstart"), {
   ssr: false,
@@ -17,33 +17,18 @@ export default function Home() {
   const [showLazy, setShowLazy] = useState(false);
   const observerRef = useRef(null);
 
-  const handleMouseEnter = useCallback(() => {
-    setShowLazy(true);
-  }, [setShowLazy]);
+
 
   useEffect(() => {
-    setShowLazy(false);
 
-    const htmlElement = document.documentElement;
-    htmlElement.addEventListener("scroll", handleMouseEnter);
-    htmlElement.addEventListener("mousemove", handleMouseEnter);
-    htmlElement.addEventListener("touchstart", handleMouseEnter);
-
-    return () => {
-      htmlElement.removeEventListener("touchstart", handleMouseEnter);
-      htmlElement.removeEventListener("mousemove", handleMouseEnter);
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setShowLazy(true);
+        }
+      });
     };
-  }, [handleMouseEnter]);
 
-  const handleIntersection = useCallback((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        setShowLazy(true);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(handleIntersection, {
       root: null,
       rootMargin: "0px",
@@ -55,7 +40,7 @@ export default function Home() {
     return () => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
-  }, [handleIntersection]);
+  }, []);
 
   return (
     <>

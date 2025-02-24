@@ -1,49 +1,52 @@
 "use client";
 
-import apiClient from "@/app/axios";
 import Delete from "@/public/icons/delete";
 import Edit from "@/public/icons/edit";
 import { useEffect, useState } from "react";
 import EditPopup from "../popups/editPopup";
 import DeletePopup from "../popups/deletePopup";
+import useApiStorage from "../store/api";
+import Toast from "../popups/toast";
 
 export default function UserTable() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setUser] = useState(null);
   const [selectedUserDelete, setDeleteUser] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiClient.get("/api/user");
-        setData(response?.data?.data || []);
-      } catch (error) {
-        console.log("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
+  const { getUserData, toastData } = useApiStorage();
+
+  const fetchData = async () => {
+    try {
+      const response = await getUserData();
+      setData(response?.data || []);
+    } catch (error) {
+      console.log("Error fetching users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, [setData]);
+  }, []);
 
   return (
-    <div className="min-h-[700px] flex items-center justify-center  ">
+    <div className="min-h-[700px] flex items-center justify-center">
       <div className="absolute">
         {selectedUser && (
           <EditPopup
             data={selectedUser}
-            onClick={() => {
-              setUser(null);
+            onClick={() => setUser(null)}
+            onSubmit={() => {
+              fetchData();
             }}
           />
         )}
         {selectedUserDelete && (
           <DeletePopup
             data={selectedUserDelete}
-            onClick={() => {
-              setDeleteUser(null);
-            }}
+            onClick={() => setDeleteUser(null)}
           />
         )}
       </div>
@@ -75,7 +78,7 @@ export default function UserTable() {
                     <td className="px-3 py-2">{user.username}</td>
                     <td className="px-3 py-2">{user.fullname}</td>
                     <td className="px-3 py-2">{user.email}</td>
-                    <td className="px-3 py-2">
+                    <td className="px-3 py-2 flex gap-2">
                       <button
                         type="button"
                         title="Edit User"
@@ -106,6 +109,10 @@ export default function UserTable() {
           </table>
         </div>
       </div>
+
+      {toastData && (
+        <Toast status={toastData.status} message={toastData.message} />
+      )}
     </div>
   );
 }

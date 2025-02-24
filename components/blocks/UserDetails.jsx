@@ -5,25 +5,21 @@ import Close from "@/public/icons/close";
 import Edit from "@/public/icons/edit";
 import { useEffect, useState } from "react";
 import EditUserDetailsPopup from "../popups/editUserDetailsPopup";
+import useApiStorage from "../store/api";
 
 export default function UserDetails({ name }) {
   const [data, setData] = useState({});
+  const { getCredentials } = useApiStorage();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         let id = localStorage.getItem("user_id");
-        if (!id && !name) return;
-
-        let response;
-        if (id) {
-          response = await apiClient.get(`/api/user/profile?id=${id}`);
-        } else {
-          response = await apiClient.get(`/api/user/profile?name=${name}`);
-        }
-
-        setData(response?.data?.data?.[0] || {});
+        const response = await getCredentials({ id: id, name: name });
+        setData(response?.data);
+        console.log("ee", data);
       } catch (error) {
-        console.log("Error fetching user data:", error);
+        console.log("Error fetching users:", error);
       }
     };
 

@@ -5,7 +5,8 @@ import useLocalStorage from "../store/localStorage";
 import Link from "next/link";
 
 export default function Banner(props) {
-  const { showLazy, setShowLazy, showLogin, setShowLogin } = useLocalStorage();
+  const { showLazy, setShowLazy, showLogin, setShowLogin, isLogged } =
+    useLocalStorage();
 
   const toggleLogin = () => {
     setShowLogin(!showLogin);
@@ -65,12 +66,14 @@ export default function Banner(props) {
             </Link>
           )}
 
-          <span
-            className="tertiary-button pointer text-xs lg:text-lg"
-            onClick={toggleLogin}
-          >
-            Login
-          </span>
+          {!isLogged && (
+            <span
+              className="tertiary-button pointer text-xs lg:text-lg"
+              onClick={toggleLogin}
+            >
+              Login
+            </span>
+          )}
         </div>
       </div>
     </section>

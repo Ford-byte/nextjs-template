@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Close from "@/public/icons/close";
-import apiClient from "@/app/axios";
 import Toast from "./toast";
-export default function EditPopup({ data, onClick }) {
-  const [toastData, setToastData] = useState(null);
+import useApiStorage from "../store/api";
+
+export default function EditPopup({ data, onClick, onSubmit }) {
+  const { editUserData, toastData } = useApiStorage();
   const [formData, setFormData] = useState({
     username: data.username || "",
     fullname: data.fullname || "",
@@ -11,40 +12,30 @@ export default function EditPopup({ data, onClick }) {
     profile: data.profile || "",
     role: data.role || "",
   });
-
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await apiClient.put(
-        `/api/user?id=${data?.id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      setToastData({
-        status: response?.status,
-        message: "User updated successfully!",
-      });
-
+      const response = await editUserData({ id: data.id, formData: formData });
       setTimeout(() => {
+        console.log(response?.data);
         onClick();
-        setToastData(null);
       }, 2000);
     } catch (error) {
-      console.log("Error updated user:", error.response?.data || error.message);
-
-      setToastData({
-        status: "error",
-        message: "Failed to update user!",
-      });
+      console.error(
+        "Error updating user:",
+        error.response?.data || error.message
+      );
+    } finally {
+      onSubmit();
     }
   };
 
