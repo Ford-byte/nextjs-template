@@ -1,8 +1,9 @@
-"use client";
-
 import apiClient from "@/app/axios";
 import { useEffect, useState, useCallback } from "react";
 import CreateRole from "../popups/createRolePopup";
+import Toast from "../popups/toast";
+import Close from "@/public/icons/close";
+import DeleteRolePopup from "../popups/deleteRolePopup";
 
 export default function RoleTable() {
   const [permissions, setPermissions] = useState([]);
@@ -10,30 +11,29 @@ export default function RoleTable() {
   const [userRoles, setUserRoles] = useState({});
   const [selectedRoles, setSelectedRoles] = useState({});
   const [popUp, setPopup] = useState(false);
+  const [toast, setToastData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
-  // Fetch permissions
   const fetchPermissions = useCallback(async () => {
     try {
       const response = await apiClient.get(`/api/permissions`);
       setPermissions(response.data?.data || []);
     } catch (error) {
-      console.error("Error fetching permissions:", error);
+      console.log("Error fetching permissions:", error);
     }
   }, []);
 
-  // Fetch roles
   const fetchRoles = useCallback(async () => {
     try {
       const response = await apiClient.get(`/api/role`);
       setRoles(response.data?.data || []);
       return response.data?.data || [];
     } catch (error) {
-      console.error("Error fetching roles:", error);
+      console.log("Error fetching roles:", error);
       return [];
     }
   }, []);
 
-  // Fetch user roles with permissions
   const fetchUserRoles = useCallback(async (roles) => {
     try {
       const rolePermissions = {};
@@ -47,11 +47,10 @@ export default function RoleTable() {
       );
       setUserRoles(rolePermissions);
     } catch (error) {
-      console.error("Error fetching user roles:", error);
+      console.log("Error fetching user roles:", error);
     }
   }, []);
 
-  // Combined fetch function
   const fetchData = useCallback(async () => {
     await fetchPermissions();
     const fetchedRoles = await fetchRoles();
@@ -62,7 +61,6 @@ export default function RoleTable() {
     fetchData();
   }, [fetchData]);
 
-  // Handle role change in checkbox
   const handleRoleChange = (roleId, permissionId, isChecked) => {
     setSelectedRoles((prev) => ({
       ...prev,
@@ -73,23 +71,45 @@ export default function RoleTable() {
     }));
   };
 
-  // Handle saving roles
+  const [isSaving, setIsSaving] = useState(false);
+
   const handleSaveRoles = async (roleId) => {
+    if (isSaving) return;
+
+    setIsSaving(true);
+
     const assignedPermissions = Object.entries(selectedRoles[roleId] || {})
       .filter(([_, isChecked]) => isChecked)
       .map(([permissionId]) => parseInt(permissionId));
 
     try {
-      await apiClient.post(`/api/permissions/grant`, {
+      const response = await apiClient.post(`/api/permissions/grant`, {
         role_id: roleId,
         permission_id: assignedPermissions,
       });
-      alert("Roles updated successfully!");
-      await fetchData(); // Refresh data after update
+
+      setToastData({
+        message: response.data?.message || "Roles updated successfully",
+        status: 200,
+      });
+
+      fetchData();
+      setSelectedRoles((prev) => ({
+        ...prev,
+        [roleId]: {},
+      }));
     } catch (error) {
-      console.error("Error updating roles:", error);
-      alert("Failed to update roles.");
+      setToastData({
+        message: "Failed to update roles.",
+        status: 500,
+      });
+    } finally {
+      setIsSaving(false);
     }
+  };
+
+  const handleDelete = (roleId) => {
+    setDeleteId(roleId);
   };
 
   return (
@@ -115,26 +135,28 @@ export default function RoleTable() {
           {roles?.map((role) => (
             <div
               key={role.id}
-              className="h-full shadow-lg bg-gray-200 p-[12px] overflow-auto"
+              className="h-full shadow-lg bg-gray-200 p-[12px] overflow-auto w-[500px]"
             >
               <h2 className="text-xl font-bold uppercase">
                 {role.role} Permissions
               </h2>
 
-              {/* Granted Permissions */}
               <h3>Granted Permissions:</h3>
-              <ul>
-                {userRoles[role.id]?.map((roleItem) => (
+              <ul className="flex flex-wrap gap-x-[4px] gap-y-[4px] w-[400px] py-[6px]">
+                {userRoles[role?.id]?.map((roleItem) => (
                   <li
                     key={roleItem.id}
-                    className="text-green-600 font-semibold"
+                    className="text-green-600 font-semibold border border-black py-[8px] w-fit px-[12px] flex items-center gap-2"
                   >
                     {roleItem.keyword}
+                    <Close
+                      className="size-5 fill-black cursor-pointer"
+                      onClick={() => handleDelete(roleItem?.granted_id)}
+                    />
                   </li>
-                ))}
+                )) || <li className="text-gray-400">No roles available</li>}
               </ul>
 
-              {/* Assign Permissions */}
               <h3>Assign Permissions:</h3>
               <form>
                 {permissions?.map((perm) => (
@@ -147,15 +169,30 @@ export default function RoleTable() {
                       onChange={(e) =>
                         handleRoleChange(role.id, perm.id, e.target.checked)
                       }
+                      className={`${
+                        userRoles[role.id]?.some((p) => p.id === perm.id)
+                          ? "hidden"
+                          : " flex"
+                      }`}
+                      disabled={userRoles[role.id]?.some(
+                        (p) => p.id === perm.id
+                      )}
                     />
-                    <label htmlFor={`perm-${role.id}-${perm.id}`}>
+
+                    <label
+                      htmlFor={`perm-${role.id}-${perm.id}`}
+                      className={`${
+                        userRoles[role.id]?.some((p) => p.id === perm.id)
+                          ? "hidden"
+                          : " flex"
+                      }`}
+                    >
                       {perm.keyword}
                     </label>
                   </div>
                 ))}
               </form>
 
-              {/* Save Button */}
               <button
                 onClick={() => handleSaveRoles(role.id)}
                 className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
@@ -166,6 +203,18 @@ export default function RoleTable() {
           ))}
         </div>
       </div>
+      {toast && <Toast status={toast?.status} message={toast?.message} />}
+
+      {deleteId && (
+        <div className="absolute top-0 left-0 full-center">
+          <div className="absolute bg-black/50 inset-0 z-[1]"></div>
+          <DeleteRolePopup
+            deleteId={deleteId}
+            onClose={() => setDeleteId(null)}
+            fetchData={fetchData}
+          />
+        </div>
+      )}
     </div>
   );
 }

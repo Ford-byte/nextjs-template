@@ -1,37 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import apiClient from "@/app/axios";
 import Toast from "./toast";
+import useApiStorage from "../store/api";
 
 export default function DeletePopup(props) {
-  const [toastData, setToastData] = useState(null);
-
+  const { deleteUserData, toastData } = useApiStorage();
   const handleDelete = async () => {
     try {
-      const response = await apiClient.delete(
-        `/api/user?id=${props?.data?.id}`
-      );
-
-      setToastData({
-        status: response?.status,
-        message: "User deleted successfully!",
-      });
-
-      setTimeout(() => {
-        props?.onClick;
-        setToastData(null);
-      }, 2000);
+      const response = await deleteUserData({ id: props?.data?.id });
+      console.log(response?.data);
     } catch (error) {
       console.log(
         "Error deleting user:",
         error.response?.data || error.message
       );
-
-      setToastData({
-        status: "error",
-        message: "Failed to delete user!",
-      });
     }
   };
 

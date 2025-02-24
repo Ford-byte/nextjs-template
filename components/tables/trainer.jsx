@@ -1,22 +1,24 @@
 "use client";
 
-import apiClient from "@/app/axios";
 import Delete from "@/public/icons/delete";
 import Edit from "@/public/icons/edit";
 import { useEffect, useState } from "react";
 import EditPopup from "../popups/editPopup";
 import DeletePopup from "../popups/deletePopup";
+import useApiStorage from "../store/api";
+import Toast from "../popups/toast";
 
 export default function UserTable() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setUser] = useState(null);
   const [selectedUserDelete, setDeleteUser] = useState(null);
+  const { getTrainerData, toastData } = useApiStorage();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await apiClient.get("/api/trainer");
-        setData(response?.data?.data || []);
+        const response = await getTrainerData();
+        setData(response?.data || []);
       } catch (error) {
         console.log("Error fetching users:", error);
       } finally {
@@ -106,6 +108,10 @@ export default function UserTable() {
           </table>
         </div>
       </div>
+
+      {toastData && (
+        <Toast status={toastData.status} message={toastData.message} />
+      )}
     </div>
   );
 }

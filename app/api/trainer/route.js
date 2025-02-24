@@ -3,9 +3,12 @@ import pool from "../config/route";
 
 export async function GET() {
   try {
-    const query = ` SELECT * FROM user_details ud
-      JOIN user u ON u.id = ud.user_id
-      WHERE ud.role = 'trainer' AND u.flag = true`;
+    const query = ` SELECT * 
+FROM granted_role AS gr 
+LEFT JOIN role AS r ON gr.role_id = r.id 
+LEFT JOIN user_details AS ud ON gr.user_id = ud.user_id 
+LEFT JOIN user as u ON ud.user_id = u.id
+WHERE gr.role_id = 2 AND gr.flag = true`;
     const [rows] = await pool.execute(query);
     if (rows.length === 0) {
       return NextResponse.json(

@@ -23,6 +23,7 @@ export default function AdminSideBar(props) {
           className={`center gap-[12px] py-[12px] w-full cursor-pointer ${
             activeTab === "user" ? "bg-black text-white font-[600]" : ""
           }`}
+          onClick={() => handleTabChange("user")}
         >
           <span>
             <User className={`size-6`} />
@@ -35,6 +36,7 @@ export default function AdminSideBar(props) {
               ? "bg-black fill-white text-white font-[600]"
               : ""
           }`}
+          onClick={() => handleTabChange("trainer")}
         >
           <span>
             <Barbell className={`size-5`} />
@@ -48,6 +50,7 @@ export default function AdminSideBar(props) {
               ? "bg-black fill-white text-white font-[600]"
               : ""
           }`}
+          onClick={() => handleTabChange("role")}
         >
           <span>
             <Users className={`size-6`} />

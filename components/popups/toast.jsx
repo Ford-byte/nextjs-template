@@ -7,17 +7,19 @@ export default function Toast({ status, message, position }) {
   useEffect(() => {
     if (status && message) {
       const toastId = "toast-message";
-      if (status === 200) {
+      if (status === "success") {
         toast.success(message, { toastId });
-      } else {
+      } else if (status === "error") {
         toast.error(message, { toastId });
+      } else if (status === "warning") {
+        toast.warn(message, { toastId });
       }
     }
   }, [status, message]);
 
   return (
     <ToastContainer
-      position="top-right"
+      position={position || "top-right"}
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop

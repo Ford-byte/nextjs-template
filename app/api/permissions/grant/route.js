@@ -14,10 +14,12 @@ export async function GET(req) {
     }
 
     const query = `
-      SELECT * FROM granted_permission AS gp 
+      SELECT gr.*,gp.*,gp.id AS granted_id, rp.* FROM granted_permission AS gp 
       LEFT JOIN role_permissions AS rp 
       ON gp.permission_id = rp.id 
-      WHERE role_id = ?`;
+      LEFT JOIN granted_role as gr
+      ON gr.role_id = gp.role_id
+      WHERE gp.role_id = ? AND gp.flag = true`;
 
     const [response] = await pool.query(query, [role_id]);
 
@@ -77,7 +79,7 @@ export async function POST(req) {
       );
     }
   } catch (error) {
-    console.error("Error occurred during permission grant:", error);
+    console.log("Error occurred during permission grant:", error);
     return NextResponse.json(
       {
         message: "Internal Server Error.",
