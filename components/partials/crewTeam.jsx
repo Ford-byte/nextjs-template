@@ -14,7 +14,7 @@ export default function CrewTeam() {
       const response = await getTrainerData();
       setData(response?.data || []);
     } catch (error) {
-      console.error("Error fetching trainer data:", error);
+      console.log("Error fetching trainer data:", error);
     }
   }, [getTrainerData]);
 

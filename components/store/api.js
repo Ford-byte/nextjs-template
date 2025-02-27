@@ -27,7 +27,7 @@ const useApiStorage = create(
           get().setToast("success", "Permissions updated successfully!");
           return { success: true, data: permissions };
         } catch (error) {
-          console.error("Error Occurred:", error);
+          console.log("Error Occurred:", error);
           get().setToast("error", "Failed to fetch permissions.");
           return {
             success: false,
@@ -53,11 +53,9 @@ const useApiStorage = create(
 
         try {
           const response = await apiClient.get(`api/user`);
-          get().setToast("success", "User data fetched successfully.");
           return response?.data;
         } catch (error) {
-          console.error("Error fetching user:", error);
-          get().setToast("error", "Failed to fetch user data.");
+          console.log("Error fetching user:", error);
           return {
             success: false,
             message:
@@ -90,7 +88,7 @@ const useApiStorage = create(
           get().setToast("success", "User updated successfully!");
           return { success: true, data: response?.data };
         } catch (error) {
-          console.error("Error updating user:", error);
+          console.log("Error updating user:", error);
           get().setToast("error", "Failed to update user.");
           return {
             success: false,
@@ -119,7 +117,7 @@ const useApiStorage = create(
           get().setToast("success", "User deleted successfully!");
           return { success: true, data: response?.data };
         } catch (error) {
-          console.error("Error deleting user:", error);
+          console.log("Error deleting user:", error);
           get().setToast("error", "Failed to delete user.");
           return {
             success: false,
@@ -127,6 +125,21 @@ const useApiStorage = create(
           };
         }
       },
+
+      // trainee
+      getTraineesData: async (props) => {
+        try {
+          const response = await apiClient.get(`api/trainee?id=${props?.id}`);
+          return response?.data;
+        } catch (error) {
+          return {
+            success: false,
+            message:
+              error.response?.data?.message || "Failed to fetch user data",
+          };
+        }
+      },
+
       // trainers
       getTrainerData: async () => {
         const permissions = get().permissions;
@@ -144,11 +157,10 @@ const useApiStorage = create(
 
         try {
           const response = await apiClient.get(`api/trainer`);
-          get().setToast("success", "User data fetched successfully.");
+          console.log("User data fetched successfully.");
           return response?.data;
         } catch (error) {
-          console.error("Error fetching user:", error);
-          get().setToast("error", "Failed to fetch user data.");
+          console.log("Error fetching user:", error);
           return {
             success: false,
             message:
@@ -181,7 +193,7 @@ const useApiStorage = create(
           setToast("success", "User data fetched successfully.");
           return { success: true, data: response.data };
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.log("Error fetching user data:", error);
           get().setToast("error", "Failed to fetch user data.");
           return {
             success: false,
@@ -212,7 +224,7 @@ const useApiStorage = create(
           return { success: true, data: response.data };
         } catch (error) {
           if (!error.response) {
-            console.error("Network error:", error);
+            console.log("Network error:", error);
             get().setToast("error", "Network error. Please try again later.");
             return {
               success: false,
@@ -221,7 +233,7 @@ const useApiStorage = create(
           }
 
           if (error.response.status === 401) {
-            console.error("Authentication error:", error);
+            console.log("Authentication error:", error);
             get().setToast("error", "Invalid username or password.");
             return {
               success: false,
@@ -231,7 +243,7 @@ const useApiStorage = create(
             };
           }
 
-          console.error("Internal server error:", error);
+          console.log("Internal server error:", error);
           get().setToast(
             "error",
             "Internal server error. Please try again later."
@@ -239,6 +251,132 @@ const useApiStorage = create(
           return {
             success: false,
             message: error.response?.data?.message || "Internal server error.",
+          };
+        }
+      },
+
+      submitApplication: async (props) => {
+        try {
+          const {
+            user_id,
+            trainers_id,
+            fullname,
+            age,
+            contact,
+            emergency_person,
+            emergency_number,
+            question_1,
+            question_2,
+            question_3,
+            question_4,
+            question_5,
+            question_6,
+          } = props;
+
+          const response = await apiClient.post("api/user/application", {
+            user_id,
+            trainers_id,
+            fullname,
+            age,
+            contact,
+            emergency_person,
+            emergency_number,
+            question_1,
+            question_2,
+            question_3,
+            question_4,
+            question_5,
+            question_6,
+          });
+
+          get().setToast("success", "Your application has been sent.");
+          return {
+            success: true,
+            data: response.data,
+          };
+        } catch (error) {
+          console.log("Error submitting application:", error);
+
+          const errorMessage =
+            error.response?.data?.message || "Internal Server Error.";
+          get().setToast("error", errorMessage);
+
+          return {
+            success: false,
+            message: errorMessage,
+          };
+        }
+      },
+
+      getApplications: async ({ id }) => {
+        try {
+          const response = await apiClient.get(`api/user/application?id=${id}`);
+
+          return {
+            success: true,
+            data: response.data,
+          };
+        } catch (error) {
+          console.log("Error fetching application:", error);
+
+          const errorMessage =
+            error.response?.data?.message || "Internal Server Error.";
+
+          return {
+            success: false,
+            message: errorMessage,
+          };
+        }
+      },
+
+      applicationApproval: async (props) => {
+        try {
+          const response = await apiClient.put(`api/user/application`, {
+            approval: props.approval,
+            id: props.id,
+          });
+          console.log("res", response);
+          get().setToast("success", response?.data?.message);
+          return {
+            success: true,
+            data: response.data,
+          };
+        } catch (error) {
+          console.log("Internal Server Error.", error);
+
+          const errorMessage =
+            error.response?.data?.message || "Internal Server Error.";
+          get().setToast("error", errorMessage);
+
+          return {
+            success: false,
+            message: errorMessage,
+          };
+        }
+      },
+
+      deleteApplication: async (props) => {
+        try {
+          const response = await apiClient.delete(
+            `api/user/application?id=${props?.id}`
+          );
+
+          console.log("res", response);
+          get().setToast("success", response?.data?.message);
+          return {
+            success: true,
+            data: response.data,
+          };
+        } catch (error) {
+          console.log("Internal Server Error.", error);
+
+          const errorMessage =
+            error.response?.data?.message || "Internal Server Error.";
+          get().setToast("error", errorMessage);
+
+          return {
+            success: false,
+            message: errorMessage,
           };
         }
       },

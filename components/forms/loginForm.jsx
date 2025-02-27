@@ -56,6 +56,7 @@ export default function LoginForm({ changeForm }) {
 
       setTimeout(() => {
         setLog(true);
+        window.location.reload();
       }, 1000);
 
       setUsername("");

@@ -56,6 +56,7 @@ function Navigation() {
     "view:dashboard": { href: "/dashboard", label: "Dashboard" },
     "view:session": { href: "/session", label: "Sessions" },
     "view:trainee": { href: "/trainee", label: "Trainee" },
+    "view:trainers": { href: "/trainers", label: "Coaches" },
   };
 
   const renderRoleSpecificLinks = () =>

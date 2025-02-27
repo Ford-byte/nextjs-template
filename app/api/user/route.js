@@ -59,7 +59,7 @@ export async function DELETE(req) {
 
     return NextResponse.json({ message: "User data deleted successfully." });
   } catch (error) {
-    console.error("Error during DELETE request:", error);
+    console.log("Error during DELETE request:", error);
     return NextResponse.json(
       { message: "Database query failed", error: error.message },
       { status: 500 }
