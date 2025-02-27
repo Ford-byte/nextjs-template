@@ -30,7 +30,7 @@ export default function EditPopup({ data, onClick, onSubmit }) {
         onClick();
       }, 2000);
     } catch (error) {
-      console.error(
+      console.log(
         "Error updating user:",
         error.response?.data || error.message
       );
